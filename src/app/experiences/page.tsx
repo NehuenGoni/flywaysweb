@@ -3,6 +3,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { ExperienceCard } from "@/components/experience/ExperienceCard";
+import { BeyondHunting } from "@/components/sections/BeyondHunting";
 import { CtaBand } from "@/components/sections/CtaBand";
 import { experiences } from "@/content/experiences";
 
@@ -29,6 +30,7 @@ export default function ExperiencesPage() {
           ))}
         </div>
       </Section>
+      <BeyondHunting tone="paperDim" />
       <CtaBand />
     </>
   );

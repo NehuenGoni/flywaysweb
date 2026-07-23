@@ -3,10 +3,10 @@ import { PageHero } from "@/components/ui/PageHero";
 import { Section, Eyebrow } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { LodgeCard } from "@/components/lodge/LodgeCard";
-import { PlanWhen } from "@/components/plan/PlanWhen";
 import { PlanRoute } from "@/components/plan/PlanRoute";
 import { LeadSection } from "@/components/sections/LeadSection";
 import { lodges } from "@/content/lodges";
+import { getExperience } from "@/content/experiences";
 
 export const metadata: Metadata = {
   title: "Plan your trip",
@@ -16,6 +16,7 @@ export const metadata: Metadata = {
 
 export default function PlanYourTripPage() {
   const doveLodges = lodges.filter((l) => l.category === "Dove hunting");
+  const seasonRows = getExperience("dove-hunting-cordoba")?.seasons?.rows ?? [];
 
   return (
     <>
@@ -30,14 +31,29 @@ export default function PlanYourTripPage() {
         <Reveal>
           <Eyebrow>01 — When should I come?</Eyebrow>
           <h2 className="font-display mt-3 max-w-2xl text-3xl sm:text-4xl">
-            Córdoba shoots all year
+            High season runs all year
           </h2>
           <p className="mt-4 max-w-2xl text-lg leading-relaxed text-ink/75">
-            Two seasons, both exceptional. Pick a month to see what to expect.
+            Argentina shoots year-round — there&apos;s no off-season to plan
+            around. Two seasons, both exceptional; come whenever suits you.
           </p>
         </Reveal>
-        <div className="mt-10">
-          <PlanWhen />
+        <div className="mt-10 grid gap-5 sm:grid-cols-2">
+          {seasonRows.map((row, i) => (
+            <Reveal key={row.name} delay={i * 0.08}>
+              <div className="h-full rounded-2xl border border-ink/10 bg-paper p-7">
+                <div className="flex items-baseline justify-between gap-4">
+                  <h3 className="font-display text-xl">{row.name}</h3>
+                  <span className="text-xs uppercase tracking-[0.14em] text-olive">
+                    {row.window}
+                  </span>
+                </div>
+                <p className="mt-3 text-sm leading-relaxed text-ink/70">
+                  {row.description}
+                </p>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </Section>
 

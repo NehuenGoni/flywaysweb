@@ -26,7 +26,7 @@ export function Hero() {
           transition={{ duration: 0.6, ease: EASE }}
           className="font-display text-xs uppercase tracking-[0.32em] text-sky"
         >
-          Córdoba, Argentina · Est. 20 years
+          Argentina · Est. 20 years
         </motion.p>
 
         <motion.h1
@@ -35,7 +35,7 @@ export function Hero() {
           transition={{ duration: 0.7, ease: EASE, delay: 0.08 }}
           className="font-display mt-5 max-w-4xl text-4xl leading-[1.04] sm:text-6xl lg:text-7xl"
         >
-          The world&apos;s best dove hunting, run by the people who built it.
+          Argentina&apos;s premium hunting experiences.
         </motion.h1>
 
         <motion.p
@@ -44,9 +44,9 @@ export function Hero() {
           transition={{ duration: 0.7, ease: EASE, delay: 0.16 }}
           className="mt-6 max-w-xl text-lg text-paper/80 sm:text-xl"
         >
-          Twenty years in the fields of Córdoba. Orvis Endorsed, Beretta certified,
-          and owner-run on every trip. From non-stop doves to Patagonian trout —
-          we&apos;ll plan the trip with you, start to finish.
+          Two decades in the field. Orvis Endorsed, Beretta certified, and
+          owner-run on every trip. World-class dove hunting in Córdoba, wild trout
+          in Patagonia — and everything worth doing while you&apos;re here.
         </motion.p>
 
         <motion.div

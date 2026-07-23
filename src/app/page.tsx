@@ -1,5 +1,6 @@
 import { Hero } from "@/components/home/Hero";
 import { WhyFlyways } from "@/components/home/WhyFlyways";
+import { BeyondHunting } from "@/components/sections/BeyondHunting";
 import { Testimonials } from "@/components/home/Testimonials";
 import { Section, Eyebrow } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
@@ -44,10 +45,13 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* 3 — Why Flyways */}
+      {/* 3 — Beyond hunting: bespoke add-ons across Argentina */}
+      <BeyondHunting tone="teal" />
+
+      {/* 4 — Why Flyways */}
       <WhyFlyways />
 
-      {/* 4 — The lodges */}
+      {/* 5 — The lodges */}
       <Section tone="paper">
         <Reveal>
           <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
@@ -72,10 +76,10 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* 5 — Testimonials + Google reviews */}
+      {/* 6 — Testimonials + Google reviews */}
       <Testimonials />
 
-      {/* 6 — Final CTA: schedule a call / lead form */}
+      {/* 7 — Final CTA: schedule a call / lead form */}
       <LeadSection
         heading="Let's plan your trip"
         body="Tell us roughly when you'd like to come and who's traveling — or schedule a call and talk it through with a real person at FlyWays."
