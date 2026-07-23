@@ -5,8 +5,8 @@ type Tone = "paper" | "paperDim" | "teal";
 
 /**
  * A bespoke add-on section: the hunt you choose is the starting point, and the
- * rest of Argentina — wine country, Buenos Aires, Patagonia — can be layered on
- * top, all-inclusive. Rendered on the home page and on /experiences.
+ * rest of Argentina's nature — wine country, wetlands, Patagonia — can be
+ * layered on top, all-inclusive. Rendered on the home page and on /experiences.
  */
 const addOns = [
   {
@@ -14,8 +14,8 @@ const addOns = [
     detail: "Mendoza: private tastings and unhurried days across the vineyards.",
   },
   {
-    name: "City & culture",
-    detail: "Buenos Aires: tango, asado and the best of the capital.",
+    name: "Wetlands & wildlife",
+    detail: "Esteros del Iberá: boat safaris among caimans, capybaras and birdlife.",
   },
   {
     name: "Wild landscapes",
@@ -43,9 +43,9 @@ export function BeyondHunting({ tone = "paperDim" }: { tone?: Tone }) {
             (onDark ? "text-paper/80" : "text-ink/75")
           }
         >
-          Every trip is built to measure. Add wine country, a few days in Buenos
-          Aires, or Patagonia to the hunt you&apos;ve chosen — distances that feel
-          long from home are short domestic flights here, and everything stays
+          Every trip is built to measure. Add wine country, wetlands, or
+          Patagonia to the hunt you&apos;ve chosen — distances that feel long
+          from home are short domestic flights here, and everything stays
           all-inclusive: we handle the logistics, the guides and the details end
           to end.
         </p>
