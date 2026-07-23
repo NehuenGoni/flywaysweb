@@ -1,0 +1,293 @@
+{
+  "$schema_notes": "Fuente única de verdad para la migración SEO de flyways.com. Consumido directamente por next.config.ts (ver generateRedirects()). 'status': 301 es documental para el equipo de analytics — Next.js sólo emite 307/308 vía redirects(); con permanent=true emite 308, que Google trata como equivalente a un 301 permanente a efectos de indexación y transferencia de link equity.",
+  "redirects": [
+    {
+      "old_url": "/rates.html",
+      "new_url": "/lodges",
+      "domain": "www.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "No existe una página única de 'rates' en el sitio nuevo: las tarifas viven embebidas por lodge (RatesTable). Redirige al listado de lodges. Revisar si conviene una página /rates agregada por valor SEO propio."
+    },
+    {
+      "old_url": "/trip-planning.html",
+      "new_url": "/plan-your-trip",
+      "domain": "www.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "Mapeo directo, ya existe la página equivalente."
+    },
+    {
+      "old_url": "/book-now.html",
+      "new_url": "/contact",
+      "domain": "www.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "El CTA principal de reserva (Schedule a Call) vive en /contact."
+    },
+    {
+      "old_url": "/photos.html",
+      "new_url": "/",
+      "domain": "www.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "No existe galería standalone en el sitio nuevo. Home es el destino temático más cercano (hero visual)."
+    },
+    {
+      "old_url": "/photos/posta-del-norte-pictures.html",
+      "new_url": "/lodges/posta-del-norte",
+      "domain": "www.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "Galería específica de una lodge → página de esa lodge."
+    },
+    {
+      "old_url": "/videos.html",
+      "new_url": "/",
+      "domain": "www.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "El embed de Vimeo del hero vive en home. No hay página de videos standalone en el sitio nuevo."
+    },
+    {
+      "old_url": "/other-activities.html",
+      "new_url": "/why-flyways",
+      "domain": "www.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "Contenido de 'más allá de la caza' más cercano al storytelling de marca en why-flyways."
+    },
+    {
+      "old_url": "/reviews.html",
+      "new_url": "/",
+      "domain": "www.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "Testimonios embebidos como sección de home, sin página ni anchor propio hoy. Considerar agregar #testimonials como anchor."
+    },
+    {
+      "old_url": "/about-us.html",
+      "new_url": "/why-flyways",
+      "domain": "www.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "Mapeo directo — equipo/credenciales viven en why-flyways."
+    },
+    {
+      "old_url": "/articles.html",
+      "new_url": "/experiences/dove-hunting-cordoba",
+      "domain": "www.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "No existe sección de artículos en el sitio nuevo. El único artículo conocido es sobre caza en Córdoba; se usa como destino temático del índice."
+    },
+    {
+      "old_url": "/articles/shes-not-a-hunter-not-a-problem-in-cordoba.html",
+      "new_url": "/experiences/dove-hunting-cordoba",
+      "domain": "www.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "Artículo individual sin página equivalente; redirige a la experiencia temáticamente más cercana."
+    },
+    {
+      "old_url": "/articles/:slug.html",
+      "new_url": "/experiences/dove-hunting-cordoba",
+      "domain": "www.flyways.com",
+      "status": 301,
+      "pattern": true,
+      "notes": "Wildcard de seguridad para cualquier artículo no listado explícitamente arriba. Revisar manualmente si aparecen artículos con temática distinta a dove hunting."
+    },
+    {
+      "old_url": "/newsletter.html",
+      "new_url": "/",
+      "domain": "www.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "Archivo de newsletters no migrado. Home como fallback; considerar mecanismo de suscripción en /contact si se quiere retomar."
+    },
+    {
+      "old_url": "/calendar/",
+      "new_url": "/plan-your-trip",
+      "domain": "www.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "Equivalente funcional más cercano: la herramienta de planificación de viaje."
+    },
+    {
+      "old_url": "/blog.html",
+      "new_url": "/why-flyways",
+      "domain": "www.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "No existe blog en el sitio nuevo. Índice redirige al storytelling de marca más cercano."
+    },
+    {
+      "old_url": "/hunting-friends-for-life/.html",
+      "new_url": "/why-flyways",
+      "domain": "www.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "Post de blog conocido, sin página propia. Fallback temático."
+    },
+    {
+      "old_url": "/the-best-of-two-worlds/.html",
+      "new_url": "/why-flyways",
+      "domain": "www.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "Post de blog conocido, sin página propia. Fallback temático."
+    },
+    {
+      "old_url": "/hope-you-like-it/.html",
+      "new_url": "/experiences/dove-hunting-cordoba",
+      "domain": "www.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "Post sobre visita a Córdoba en enero — más cercano a la experiencia de dove hunting que a why-flyways."
+    },
+    {
+      "old_url": "/funny-stories-from-our-staff/.html",
+      "new_url": "/why-flyways",
+      "domain": "www.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "Post de blog conocido, sin página propia. Fallback temático."
+    },
+    {
+      "old_url": "/new-updates-to-our-lodges-in-cordoba/.html",
+      "new_url": "/lodges",
+      "domain": "www.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "Post sobre actualizaciones de las lodges — destino temático es el listado de lodges."
+    },
+    {
+      "old_url": "/:slug/.html",
+      "new_url": "/why-flyways",
+      "domain": "www.flyways.com",
+      "status": 301,
+      "pattern": true,
+      "notes": "Wildcard de seguridad para cualquier post de blog no listado explícitamente arriba (patrón /slug/.html). Revisar manualmente el contenido real antes de confiar en el destino genérico."
+    },
+    {
+      "old_url": "/the-lodges/los-chanares",
+      "new_url": "/lodges/los-chanares",
+      "domain": "www.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "Mismo slug, sólo cambia el prefijo de carpeta. Alta confianza."
+    },
+    {
+      "old_url": "/the-lodges/posta-del-norte",
+      "new_url": "/lodges/posta-del-norte",
+      "domain": "www.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "Mismo slug, sólo cambia el prefijo de carpeta. Alta confianza."
+    },
+    {
+      "old_url": "/flyways-orvis-endorsement/",
+      "new_url": "/why-flyways",
+      "domain": "www.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "Las credenciales Orvis/Beretta viven en why-flyways (sección Recognition)."
+    },
+    {
+      "old_url": "/wp-content/uploads/2022/12/Posta-del-Norte-Prices-2023.pdf",
+      "new_url": "/docs/posta-del-norte-prices-2023.pdf",
+      "domain": "www.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "PENDIENTE: subir el PDF real a public/docs/ antes del deploy — este redirect asume que el archivo existirá en esa ruta. Sin el archivo físico, el redirect apunta a un 404."
+    },
+    {
+      "old_url": "/wingshooting",
+      "new_url": "/experiences/mixed-bag",
+      "domain": "landings.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "La landing describía un 'mixed bag overview', que corresponde a la experiencia mixed-bag en el sitio nuevo."
+    },
+    {
+      "old_url": "/big-game/index.html",
+      "new_url": "/experiences/big-game",
+      "domain": "landings.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "Mapeo directo al overview de la experiencia big-game."
+    },
+    {
+      "old_url": "/big-game/mountain-lodge-book-now.html",
+      "new_url": "/experiences/big-game",
+      "domain": "landings.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "GAP DE CONTENIDO: Mountain Lodge no tiene página propia en el sitio nuevo (experiences.ts → big-game tiene lodgeSlugs: []). Redirect temporal a la categoría, aprobado por el cliente. Revisar cuando se construya la página de esta lodge."
+    },
+    {
+      "old_url": "/big-game/rincn-de-luna-book-now.html",
+      "new_url": "/experiences/big-game",
+      "domain": "landings.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "GAP DE CONTENIDO: Rincón de Luna no tiene página propia en el sitio nuevo. Redirect temporal a la categoría, aprobado por el cliente. Revisar cuando se construya la página de esta lodge."
+    },
+    {
+      "old_url": "/big-game/los-araucanos-book-now.html",
+      "new_url": "/experiences/big-game",
+      "domain": "landings.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "GAP DE CONTENIDO: Los Araucanos no tiene página propia en el sitio nuevo. Redirect temporal a la categoría, aprobado por el cliente. Revisar cuando se construya la página de esta lodge."
+    },
+    {
+      "old_url": "/flyfishing",
+      "new_url": "/experiences/fly-fishing-patagonia",
+      "domain": "landings.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "Mapeo directo al overview de la experiencia fly-fishing-patagonia."
+    },
+    {
+      "old_url": "/flyfishing/index.html",
+      "new_url": "/experiences/fly-fishing-patagonia",
+      "domain": "landings.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "Duplicado del anterior en el sitio viejo; se consolida al mismo destino."
+    },
+    {
+      "old_url": "/flyfishing/la-caridad-book-now.html",
+      "new_url": "/lodges/la-caridad",
+      "domain": "landings.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "Mismo slug ya existente en el sitio nuevo. Alta confianza."
+    },
+    {
+      "old_url": "/flyfishing/tecka-lodge-book-now.html",
+      "new_url": "/lodges/tecka",
+      "domain": "landings.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "Mismo slug ya existente en el sitio nuevo. Alta confianza."
+    },
+    {
+      "old_url": "/flyfishing/el-dorado-book-now.html",
+      "new_url": "/lodges/el-dorado",
+      "domain": "landings.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "Mismo slug ya existente en el sitio nuevo. Alta confianza."
+    },
+    {
+      "old_url": "/:slug.html",
+      "new_url": "/:slug",
+      "domain": "www.flyways.com",
+      "status": 301,
+      "pattern": true,
+      "notes": "Catch-all final: cualquier .html de un solo segmento no cubierto por reglas anteriores simplemente pierde la extensión. Red de seguridad, no reemplaza el análisis manual — debe ir último en el orden de evaluación."
+    }
+  ]
+}
