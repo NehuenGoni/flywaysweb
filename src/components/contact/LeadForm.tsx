@@ -368,11 +368,11 @@ function FullForm({
                 className={cn(inputCls, "appearance-none")}
                 {...register("country")}
               >
-                <option value="" disabled>
+                <option value="" disabled className="bg-paper text-ink">
                   Select a country
                 </option>
                 {countries.map((c) => (
-                  <option key={c.code} value={c.name}>
+                  <option key={c.code} value={c.name} className="bg-paper text-ink">
                     {c.name}
                   </option>
                 ))}

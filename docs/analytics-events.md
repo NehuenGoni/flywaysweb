@@ -32,6 +32,7 @@ triggers de GA4 sin tener que traducir nada.
 | `click_whatsapp`   | Clic en el enlace de WhatsApp                                | `cta_name`: `WhatsApp` · `page_type` · `language` · `business_unit`, `experience` (si aplica) |
 | `click_cta`        | Clic en el CTA "Schedule a Call" (Calendly)                   | `cta_name`: `Schedule a Call` · `placement`: `header` \| `mobile-nav` \| `page` · `page_type` · `language` · `business_unit`, `experience` (si aplica) |
 | `view_experience`  | Carga de una página de experiencia individual                | `experience` · `business_unit` · `page_type`: `Experience` · `language`: `EN` |
+| `click_nav`        | Clic en un ítem del submenú del navbar (Experiences / The Lodges) | `nav_item` · `nav_group`: `Experiences` \| `The Lodges` · `placement`: `header` \| `mobile-nav` · `page_type` · `language` · `business_unit`, `experience` (si aplica) |
 
 `page_view` **no** se empuja manualmente: lo aporta el Enhanced Measurement de
 GA4. No crear un tag de pageview manual para evitar duplicados.
@@ -47,6 +48,8 @@ GA4. No crear un tag de pageview manual para evitar duplicados.
 | `form_name`      | `Main Contact Form` (único formulario del sitio)                                          |
 | `newsletter_opt_in` | `true` \| `false` — boolean, checkbox pre-tildado por defecto en ambas variantes del form |
 | `cta_name`       | `Schedule a Call` · `Email Us` · `Call Us` · `WhatsApp`                                    |
+| `nav_group`      | `Experiences` · `The Lodges`                                                               |
+| `nav_item`       | `navLabel` de cada experiencia (ver arriba) · nombre del lodge (ej. `Los Chañares`) · `All lodges` |
 
 `page_type` se deriva automáticamente de la ruta actual
 (`pageTypeFromPathname` en `src/lib/analytics.ts`); no hace falta pasarlo a
@@ -59,6 +62,7 @@ mano salvo en `generate_lead` y `view_experience`, que usan un valor fijo.
 - `click_email` / `click_phone` / `click_whatsapp` → `src/components/ui/ContactChannelLink.tsx` (usado por el footer, `/contact` y `LeadSection`)
 - `click_cta` → `src/components/ui/ScheduleCallButton.tsx` (usado por el header, hero, `CtaBand`, `LeadSection`, `RatesTable` y las páginas de experiencia/lodge/contact)
 - `view_experience` → `src/components/experience/ViewExperienceTracker.tsx`, montado en `src/app/experiences/[slug]/page.tsx`
+- `click_nav` → `src/components/layout/Header.tsx` (`NavMenuChild` en desktop, `MobileNavGroup` en mobile), helper en `src/lib/analytics.ts`
 
 ## Pendiente / a confirmar con marketing
 
@@ -77,6 +81,10 @@ mano salvo en `generate_lead` y `view_experience`, que usan un valor fijo.
   para el clic en "Schedule a Call"; se implementó como propuesta propia
   (verbo + snake_case, consistente con el resto). Falta que marketing lo
   valide o indique un nombre distinto.
+- **`click_nav`**: igual que `click_cta`, es una propuesta propia (no está en
+  la guía de marketing) para trackear clics en los submenús del navbar
+  (Experiences / The Lodges). Falta que marketing lo valide o indique un
+  nombre distinto.
 
 ## Pendiente (próxima fase): consentimiento
 

@@ -133,6 +133,36 @@ export function trackCtaClick({
   });
 }
 
+/**
+ * Clic en un ítem de submenú del navbar (Experiences / The Lodges).
+ * Propuesta propia (no está en la guía de marketing) — pendiente de validar,
+ * igual que `click_cta`. Ver web/docs/analytics-events.md.
+ */
+export function trackNavClick({
+  item,
+  group,
+  placement,
+  businessUnit,
+  experience,
+  context,
+}: {
+  /** navLabel de la experiencia o nombre del lodge clickeado. */
+  item: string;
+  group: "Experiences" | "The Lodges";
+  placement: "header" | "mobile-nav";
+  businessUnit?: BusinessUnit;
+  experience?: string;
+  context: AnalyticsContext;
+}) {
+  sendGTMEvent({
+    event: "click_nav",
+    nav_item: item,
+    nav_group: group,
+    placement,
+    ...contextParams({ ...context, businessUnit, experience }),
+  });
+}
+
 /** Visualización de una página de experiencia individual. */
 export function trackViewExperience({
   experience,

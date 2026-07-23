@@ -1,3 +1,7 @@
+import { experiences } from "@/content/experiences";
+import { lodges } from "@/content/lodges";
+import type { ExperienceIconName } from "@/components/brand/icons";
+
 export const siteConfig = {
   name: "FlyWays Argentina",
   shortName: "FlyWays",
@@ -26,12 +30,45 @@ export const siteConfig = {
   ],
 } as const;
 
-export type NavItem = { label: string; href: string };
+export type NavChild = {
+  label: string;
+  href: string;
+  /** Only set for experience children — used to render the marker icon. */
+  icon?: ExperienceIconName;
+  /** Short qualifier shown under the label, e.g. a lodge's location. */
+  sublabel?: string;
+};
+
+export type NavItem = { label: string; href: string; children?: NavChild[] };
+
+// The lodges we currently have final copy for, in the same order the
+// homepage/footer surface them. Placeholder fishing/big-game lodges stay out
+// of the nav until their content is ready.
+const doveLodges = lodges.filter((l) => l.category === "Dove hunting");
 
 // Experiences first, then the lodges, then brand and planning.
 export const mainNav: NavItem[] = [
-  { label: "Experiences", href: "/experiences" },
-  { label: "The Lodges", href: "/lodges" },
+  {
+    label: "Experiences",
+    href: "/experiences",
+    children: experiences.map((e) => ({
+      label: e.navLabel,
+      href: `/experiences/${e.slug}`,
+      icon: e.icon,
+    })),
+  },
+  {
+    label: "The Lodges",
+    href: "/lodges",
+    children: [
+      ...doveLodges.map((l) => ({
+        label: l.name,
+        href: `/lodges/${l.slug}`,
+        sublabel: l.location,
+      })),
+      { label: "All lodges", href: "/lodges" },
+    ],
+  },
   { label: "Why Flyways", href: "/why-flyways" },
   { label: "Plan your trip", href: "/plan-your-trip" },
 ];
