@@ -8,8 +8,14 @@ import { sendGTMEvent } from "@next/third-parties/google";
 // sendGTMEvent inicializa window.dataLayer y acumula el push sin lanzar errores.
 
 /** Envío exitoso del formulario de lead. Conversión principal. */
-export function trackLead({ source }: { source: string }) {
-  sendGTMEvent({ event: "generate_lead", source });
+export function trackLead({
+  source,
+  variant,
+}: {
+  source: string;
+  variant: "compact" | "full";
+}) {
+  sendGTMEvent({ event: "generate_lead", source, variant });
 }
 
 /** Clic en el CTA "Book a call" (Calendly). */

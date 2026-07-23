@@ -21,7 +21,7 @@ requiere ningún deploy.
 
 | Evento (`event`)  | Cuándo dispara                                             | Parámetros                                    |
 | ----------------- | --------------------------------------------------------- | --------------------------------------------- |
-| `generate_lead`   | Envío exitoso del formulario de lead (conversión principal)| `source`: ruta desde donde se envió (ej. `/contact`) |
+| `generate_lead`   | Envío exitoso del formulario de lead (conversión principal)| `source`: ruta desde donde se envió (ej. `/contact`) · `variant`: `compact` \| `full` |
 | `book_call_click` | Clic en el CTA "Book a call" (Calendly)                   | `location`: `header` \| `mobile-nav`          |
 | `contact_click`   | Clic en un canal de contacto directo del footer           | `method`: `email` \| `phone` \| `whatsapp`    |
 

@@ -14,11 +14,13 @@ export function LeadSection({
   eyebrow = "Plan your trip",
   heading = "Start the conversation",
   body = "Tell us roughly when you'd like to come and who's traveling. We'll reply personally — or book a call and skip straight to talking it through.",
+  variant = "full",
 }: {
   id?: string;
   eyebrow?: string;
   heading?: string;
   body?: string;
+  variant?: "compact" | "full";
 }) {
   return (
     <Section tone="ink" id={id}>
@@ -41,7 +43,7 @@ export function LeadSection({
         </Reveal>
 
         <Reveal delay={0.1}>
-          <LeadForm tone="dark" />
+          <LeadForm tone="dark" variant={variant} />
         </Reveal>
       </div>
     </Section>

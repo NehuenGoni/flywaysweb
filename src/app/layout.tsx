@@ -3,6 +3,7 @@ import { GoogleTagManager } from "@next/third-parties/google";
 import { montserrat, trajan } from "@/lib/fonts";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { LeadPopup } from "@/components/contact/LeadPopup";
 import { siteConfig } from "@/data/site";
 import "./globals.css";
 
@@ -65,6 +66,7 @@ export default function RootLayout({
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+        <LeadPopup />
       </body>
     </html>
   );

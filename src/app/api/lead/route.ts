@@ -1,12 +1,14 @@
 import { NextResponse } from "next/server";
-import { leadSchema } from "@/lib/lead";
+import { leadSchema, normalizeLead } from "@/lib/lead";
+import { createOdooLead, isOdooConfigured } from "@/lib/odoo";
 
 /**
- * Single lead endpoint for the standard site-wide form.
+ * Single lead endpoint for both form variants (compact + full).
  *
- * TODO(client): wire an email/CRM provider here (e.g. Resend, Postmark,
- * or a webhook to the booking inbox). For now we validate, drop bot
- * submissions, log server-side, and return success so the UX is complete.
+ * Validates, drops bot submissions (honeypot), then delivers the lead to
+ * Odoo (crm.lead) when ODOO_* env vars are configured. Without them it
+ * just logs server-side, so the site works end-to-end in dev/preview
+ * before the client hands over credentials.
  */
 export async function POST(request: Request) {
   let body: unknown;
@@ -24,21 +26,24 @@ export async function POST(request: Request) {
     );
   }
 
-  const { company, ...lead } = parsed.data;
-
   // Honeypot tripped → pretend success, do nothing.
-  if (company) {
+  if (parsed.data.company) {
     return NextResponse.json({ ok: true });
   }
 
-  // Replace with real delivery (email/CRM).
-  console.info("[lead] new enquiry", {
-    name: lead.name,
-    email: lead.email,
-    dates: lead.dates,
-    party: lead.party,
-    source: lead.source,
-  });
+  const lead = normalizeLead(parsed.data);
+
+  if (!isOdooConfigured()) {
+    console.info("[lead] new enquiry (Odoo not configured, logging only)", lead);
+    return NextResponse.json({ ok: true });
+  }
+
+  try {
+    await createOdooLead(lead);
+  } catch (err) {
+    console.error("[lead] failed to create Odoo lead", err);
+    return NextResponse.json({ error: "Delivery failed" }, { status: 502 });
+  }
 
   return NextResponse.json({ ok: true });
 }
