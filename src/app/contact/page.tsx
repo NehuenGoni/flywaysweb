@@ -2,14 +2,15 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
-import { ButtonLink } from "@/components/ui/Button";
+import { ScheduleCallButton } from "@/components/ui/ScheduleCallButton";
+import { ContactChannelLink } from "@/components/ui/ContactChannelLink";
 import { LeadForm } from "@/components/contact/LeadForm";
 import { siteConfig } from "@/data/site";
 
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Book a call, send a message, or email FlyWays Argentina. A real person replies — no bots, no queues.",
+    "Schedule a call, send a message, or email FlyWays Argentina. A real person replies — no bots, no queues.",
 };
 
 export default function ContactPage() {
@@ -23,13 +24,13 @@ export default function ContactPage() {
 
       <Section tone="paper">
         <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
-          {/* Primary: book a call + contact channels */}
+          {/* Primary: schedule a call + contact channels */}
           <Reveal>
             <div className="rounded-3xl border border-ink/10 bg-paper-dim p-8">
               <div className="font-display text-xs uppercase tracking-[0.2em] text-olive">
                 The fastest way
               </div>
-              <h2 className="font-display mt-2 text-3xl">Book a call</h2>
+              <h2 className="font-display mt-2 text-3xl">Schedule a call</h2>
               <p className="mt-3 text-ink/70">
                 Pick a time that works for you. We&apos;ll talk through dates,
                 experience and lodge — no obligation.
@@ -38,37 +39,37 @@ export default function ContactPage() {
                 TODO(client): swap this button for an inline Calendly embed once
                 the real scheduling URL is provided (see siteConfig.bookingUrl).
               */}
-              <ButtonLink
-                href={siteConfig.bookingUrl}
-                external
-                variant="primary"
-                size="lg"
-                className="mt-6"
-              >
-                Book a call →
-              </ButtonLink>
+              <ScheduleCallButton placement="page" variant="primary" size="lg" className="mt-6" />
             </div>
 
             <dl className="mt-8 space-y-5">
               <ContactRow label="Email">
-                <a href={siteConfig.contact.emailHref} className="hover:text-teal">
+                <ContactChannelLink
+                  method="email"
+                  href={siteConfig.contact.emailHref}
+                  className="hover:text-teal"
+                >
                   {siteConfig.contact.email}
-                </a>
+                </ContactChannelLink>
               </ContactRow>
               <ContactRow label="Phone">
-                <a href={siteConfig.contact.phoneHref} className="hover:text-teal">
+                <ContactChannelLink
+                  method="phone"
+                  href={siteConfig.contact.phoneHref}
+                  className="hover:text-teal"
+                >
                   {siteConfig.contact.phone}
-                </a>
+                </ContactChannelLink>
               </ContactRow>
               <ContactRow label="WhatsApp (in Argentina / EU / LatAm)">
-                <a
+                <ContactChannelLink
+                  method="whatsapp"
                   href={siteConfig.contact.whatsappHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  external
                   className="hover:text-teal"
                 >
                   {siteConfig.contact.whatsapp}
-                </a>
+                </ContactChannelLink>
               </ContactRow>
             </dl>
           </Reveal>

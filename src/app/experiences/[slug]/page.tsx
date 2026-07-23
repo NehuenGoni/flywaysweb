@@ -4,14 +4,15 @@ import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
 import { Prose } from "@/components/ui/Prose";
 import { Reveal } from "@/components/ui/Reveal";
-import { ButtonLink } from "@/components/ui/Button";
+import { ScheduleCallButton } from "@/components/ui/ScheduleCallButton";
 import { ProseFeature } from "@/components/sections/ProseFeature";
 import { SeasonTable } from "@/components/experience/SeasonTable";
 import { ChooseYourLodge } from "@/components/experience/ChooseYourLodge";
+import { ViewExperienceTracker } from "@/components/experience/ViewExperienceTracker";
 import { LeadSection } from "@/components/sections/LeadSection";
 import { experienceSlugs, getExperience } from "@/content/experiences";
 import { getLodges } from "@/content/lodges";
-import { siteConfig } from "@/data/site";
+import { businessUnitForExperienceIcon } from "@/lib/analytics";
 
 export function generateStaticParams() {
   return experienceSlugs.map((slug) => ({ slug }));
@@ -49,18 +50,25 @@ export default async function ExperiencePage({
   const lodges = getLodges(experience.lodgeSlugs);
   const mediaTone =
     experience.icon === "fish" ? "ink" : experience.icon === "deer" ? "bark" : "teal";
+  const businessUnit = businessUnitForExperienceIcon(experience.icon);
 
   return (
     <>
+      <ViewExperienceTracker experience={experience.navLabel} businessUnit={businessUnit} />
+
       <PageHero
         eyebrow={experience.navLabel}
         title={experience.heroHeadline}
         subhead={experience.heroSubhead}
         icon={experience.icon}
       >
-        <ButtonLink href={siteConfig.bookingUrl} external variant="onDark" size="lg">
-          Book a call →
-        </ButtonLink>
+        <ScheduleCallButton
+          placement="page"
+          variant="onDark"
+          size="lg"
+          businessUnit={businessUnit}
+          experience={experience.navLabel}
+        />
       </PageHero>
 
       {/* Intro */}
@@ -125,6 +133,8 @@ export default async function ExperiencePage({
       <LeadSection
         heading="Plan your trip"
         body={`Tell us roughly when you'd like to come for ${experience.title.toLowerCase()} and who's traveling. We'll reply personally.`}
+        businessUnit={businessUnit}
+        experience={experience.navLabel}
       />
     </>
   );

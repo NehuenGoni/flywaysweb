@@ -3,7 +3,7 @@
 import { motion } from "motion/react";
 import { Container } from "@/components/ui/Container";
 import { ButtonLink } from "@/components/ui/Button";
-import { siteConfig } from "@/data/site";
+import { ScheduleCallButton } from "@/components/ui/ScheduleCallButton";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -58,15 +58,12 @@ export function Hero() {
           <ButtonLink href="/experiences" variant="onDark" size="lg">
             Explore the experiences
           </ButtonLink>
-          <ButtonLink
-            href={siteConfig.bookingUrl}
-            external
+          <ScheduleCallButton
+            placement="page"
             variant="ghost"
             size="lg"
             className="text-paper/85 hover:text-paper"
-          >
-            Book a call →
-          </ButtonLink>
+          />
         </motion.div>
       </Container>
 

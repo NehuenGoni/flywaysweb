@@ -75,10 +75,10 @@ export default function HomePage() {
       {/* 5 — Testimonials + Google reviews */}
       <Testimonials />
 
-      {/* 6 — Final CTA: book a call / lead form */}
+      {/* 6 — Final CTA: schedule a call / lead form */}
       <LeadSection
         heading="Let's plan your trip"
-        body="Tell us roughly when you'd like to come and who's traveling — or book a call and talk it through with a real person at FlyWays."
+        body="Tell us roughly when you'd like to come and who's traveling — or schedule a call and talk it through with a real person at FlyWays."
       />
     </>
   );

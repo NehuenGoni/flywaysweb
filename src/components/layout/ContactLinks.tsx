@@ -1,36 +1,34 @@
-"use client";
-
 import { siteConfig } from "@/data/site";
-import { trackContactClick } from "@/lib/analytics";
+import { ContactChannelLink } from "@/components/ui/ContactChannelLink";
 
-// Enlaces de contacto directo del footer. Client Component para poder
-// instrumentar el evento contact_click en cada canal.
+// Enlaces de contacto directo del footer. La instrumentación (click_email /
+// click_phone / click_whatsapp) vive en ContactChannelLink, que también se
+// reutiliza en /contact — ver src/components/ui/ContactChannelLink.tsx.
 export function ContactLinks() {
   return (
     <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-      <a
+      <ContactChannelLink
+        method="email"
         href={siteConfig.contact.emailHref}
         className="hover:text-paper"
-        onClick={() => trackContactClick({ method: "email" })}
       >
         {siteConfig.contact.email}
-      </a>
-      <a
+      </ContactChannelLink>
+      <ContactChannelLink
+        method="phone"
         href={siteConfig.contact.phoneHref}
         className="hover:text-paper"
-        onClick={() => trackContactClick({ method: "phone" })}
       >
         {siteConfig.contact.phone}
-      </a>
-      <a
+      </ContactChannelLink>
+      <ContactChannelLink
+        method="whatsapp"
         href={siteConfig.contact.whatsappHref}
-        target="_blank"
-        rel="noopener noreferrer"
+        external
         className="hover:text-paper"
-        onClick={() => trackContactClick({ method: "whatsapp" })}
       >
         WhatsApp {siteConfig.contact.whatsapp}
-      </a>
+      </ContactChannelLink>
     </div>
   );
 }

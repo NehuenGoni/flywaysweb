@@ -11,7 +11,7 @@ import {
   type LeadCompactInput,
   type LeadFullInput,
 } from "@/lib/lead";
-import { trackLead } from "@/lib/analytics";
+import { trackLead, type BusinessUnit } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { countries } from "@/data/countries";
 
@@ -31,16 +31,20 @@ export function LeadForm({
   tone = "light",
   variant = "full",
   dense = false,
+  businessUnit,
+  experience,
 }: {
   tone?: Tone;
   variant?: "compact" | "full";
   /** Tighter spacing/sizing — for the compact variant in a modal. */
   dense?: boolean;
+  businessUnit?: BusinessUnit;
+  experience?: string;
 }) {
   return variant === "compact" ? (
-    <CompactForm tone={tone} dense={dense} />
+    <CompactForm tone={tone} dense={dense} businessUnit={businessUnit} experience={experience} />
   ) : (
-    <FullForm tone={tone} />
+    <FullForm tone={tone} businessUnit={businessUnit} experience={experience} />
   );
 }
 
@@ -118,7 +122,17 @@ function SuccessState({ dark, dense = false }: { dark: boolean; dense?: boolean 
 
 /* ---------------------------------------------------------------- compact */
 
-function CompactForm({ tone, dense = false }: { tone: Tone; dense?: boolean }) {
+function CompactForm({
+  tone,
+  dense = false,
+  businessUnit,
+  experience,
+}: {
+  tone: Tone;
+  dense?: boolean;
+  businessUnit?: BusinessUnit;
+  experience?: string;
+}) {
   const pathname = usePathname();
   const [submitted, setSubmitted] = useState(false);
   const {
@@ -137,7 +151,7 @@ function CompactForm({ tone, dense = false }: { tone: Tone; dense?: boolean }) {
     try {
       await postLead({ ...data, source: pathname });
       setSubmitted(true);
-      trackLead({ source: pathname, variant: "compact" });
+      trackLead({ source: pathname, variant: "compact", businessUnit, experience });
     } catch {
       setError("root", {
         message: "Something went wrong. Please email us — we'll get right back to you.",
@@ -219,7 +233,15 @@ function CompactForm({ tone, dense = false }: { tone: Tone; dense?: boolean }) {
 
 /* -------------------------------------------------------------------- full */
 
-function FullForm({ tone }: { tone: Tone }) {
+function FullForm({
+  tone,
+  businessUnit,
+  experience,
+}: {
+  tone: Tone;
+  businessUnit?: BusinessUnit;
+  experience?: string;
+}) {
   const pathname = usePathname();
   const [submitted, setSubmitted] = useState(false);
   const {
@@ -242,7 +264,7 @@ function FullForm({ tone }: { tone: Tone }) {
     try {
       await postLead({ ...data, source: pathname });
       setSubmitted(true);
-      trackLead({ source: pathname, variant: "full" });
+      trackLead({ source: pathname, variant: "full", businessUnit, experience });
     } catch {
       setError("root", {
         message: "Something went wrong. Please email us — we'll get right back to you.",

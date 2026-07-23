@@ -5,13 +5,14 @@ import { Section, Eyebrow } from "@/components/ui/Section";
 import { Prose } from "@/components/ui/Prose";
 import { Reveal } from "@/components/ui/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
+import { ScheduleCallButton } from "@/components/ui/ScheduleCallButton";
 import { ProseFeature } from "@/components/sections/ProseFeature";
 import { RatesTable } from "@/components/lodge/RatesTable";
 import { Recognition } from "@/components/lodge/Recognition";
 import { CtaBand } from "@/components/sections/CtaBand";
 import { lodgeSlugs, getLodge } from "@/content/lodges";
 import { getExperience } from "@/content/experiences";
-import { siteConfig } from "@/data/site";
+import { businessUnitForLodgeCategory } from "@/lib/analytics";
 
 export function generateStaticParams() {
   return lodgeSlugs.map((slug) => ({ slug }));
@@ -59,6 +60,7 @@ export default async function LodgePage({
   const experience = getExperience(lodge.experienceSlug);
   const mediaTone = heroToneByCategory[lodge.category];
   const icon = iconByCategory[lodge.category];
+  const businessUnit = businessUnitForLodgeCategory(lodge.category);
 
   return (
     <>
@@ -75,9 +77,13 @@ export default async function LodgePage({
           <span>{lodge.capacity}</span>
         </div>
         <div className="mt-6 flex flex-wrap gap-3">
-          <ButtonLink href={siteConfig.bookingUrl} external variant="onDark" size="lg">
-            Book a call →
-          </ButtonLink>
+          <ScheduleCallButton
+            placement="page"
+            variant="onDark"
+            size="lg"
+            businessUnit={businessUnit}
+            experience={experience?.navLabel}
+          />
           {experience && (
             <ButtonLink
               href={`/experiences/${experience.slug}`}
@@ -163,7 +169,12 @@ export default async function LodgePage({
               </p>
             </Reveal>
             <Reveal delay={0.1}>
-              <RatesTable rates={lodge.rates} lodgeName={lodge.name} />
+              <RatesTable
+                rates={lodge.rates}
+                lodgeName={lodge.name}
+                businessUnit={businessUnit}
+                experience={experience?.navLabel}
+              />
             </Reveal>
           </div>
         </Section>
@@ -175,19 +186,27 @@ export default async function LodgePage({
               Rates and full details coming soon
             </h2>
             <p className="mx-auto mt-4 max-w-md text-paper/75">
-              We&apos;re finalizing this lodge. Book a call and we&apos;ll walk you
-              through everything for your dates.
+              We&apos;re finalizing this lodge. Schedule a call and we&apos;ll walk
+              you through everything for your dates.
             </p>
             <div className="mt-8">
-              <ButtonLink href={siteConfig.bookingUrl} external variant="onDark" size="lg">
-                Book a call →
-              </ButtonLink>
+              <ScheduleCallButton
+                placement="page"
+                variant="onDark"
+                size="lg"
+                businessUnit={businessUnit}
+                experience={experience?.navLabel}
+              />
             </div>
           </Reveal>
         </Section>
       )}
 
-      <CtaBand heading={`Ready to plan your stay at ${lodge.name}?`} />
+      <CtaBand
+        heading={`Ready to plan your stay at ${lodge.name}?`}
+        businessUnit={businessUnit}
+        experience={experience?.navLabel}
+      />
     </>
   );
 }

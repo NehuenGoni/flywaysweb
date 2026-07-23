@@ -5,10 +5,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { Logo } from "@/components/brand/Logo";
-import { ButtonLink } from "@/components/ui/Button";
+import { ScheduleCallButton } from "@/components/ui/ScheduleCallButton";
 import { Container } from "@/components/ui/Container";
-import { mainNav, siteConfig } from "@/data/site";
-import { trackBookCallClick } from "@/lib/analytics";
+import { mainNav } from "@/data/site";
 import { cn } from "@/lib/utils";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -69,16 +68,12 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <ButtonLink
-            href={siteConfig.bookingUrl}
-            external
+          <ScheduleCallButton
+            placement="header"
             variant={solid ? "primary" : "onDark"}
             size="md"
             className="hidden sm:inline-flex"
-            onClick={() => trackBookCallClick({ location: "header" })}
-          >
-            Book a call →
-          </ButtonLink>
+          />
 
           <button
             type="button"
@@ -152,16 +147,12 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
           </nav>
 
           <div className="px-8 pb-12">
-            <ButtonLink
-              href={siteConfig.bookingUrl}
-              external
+            <ScheduleCallButton
+              placement="mobile-nav"
               variant="onDark"
               size="lg"
               className="w-full"
-              onClick={() => trackBookCallClick({ location: "mobile-nav" })}
-            >
-              Book a call →
-            </ButtonLink>
+            />
           </div>
         </motion.div>
       )}

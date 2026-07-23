@@ -22,7 +22,7 @@ export default function PlanYourTripPage() {
       <PageHero
         eyebrow="Plan your trip"
         title="Three questions, and you're most of the way there"
-        subhead="When should you come, which lodge fits you, and how do you get here? Work through these — then book a call and we'll handle the rest."
+        subhead="When should you come, which lodge fits you, and how do you get here? Work through these — then schedule a call and we'll handle the rest."
       />
 
       {/* 1 — When should I come */}
@@ -82,7 +82,7 @@ export default function PlanYourTripPage() {
 
       <LeadSection
         heading="Ready when you are"
-        body="Tell us your rough dates and group size, and we'll put together a plan — or book a call to talk it through."
+        body="Tell us your rough dates and group size, and we'll put together a plan — or schedule a call to talk it through."
       />
     </>
   );

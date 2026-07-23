@@ -1,13 +1,23 @@
 import type { Rates } from "@/content/types";
-import { ButtonLink } from "@/components/ui/Button";
-import { siteConfig } from "@/data/site";
+import { ScheduleCallButton } from "@/components/ui/ScheduleCallButton";
+import type { BusinessUnit } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 /**
  * Published rates card. FlyWays' competitive edge is transparent pricing —
  * this presents it clearly: headline season prices, then the fine print.
  */
-export function RatesTable({ rates, lodgeName }: { rates: Rates; lodgeName: string }) {
+export function RatesTable({
+  rates,
+  lodgeName,
+  businessUnit,
+  experience,
+}: {
+  rates: Rates;
+  lodgeName: string;
+  businessUnit?: BusinessUnit;
+  experience?: string;
+}) {
   return (
     <div className="overflow-hidden rounded-3xl border border-paper/15 bg-paper/[0.04]">
       <div className="border-b border-paper/15 px-7 py-5">
@@ -63,9 +73,13 @@ export function RatesTable({ rates, lodgeName }: { rates: Rates; lodgeName: stri
       </div>
 
       <div className="border-t border-paper/10 px-7 py-6">
-        <ButtonLink href={siteConfig.bookingUrl} external variant="onDark" className="w-full">
-          Book a call →
-        </ButtonLink>
+        <ScheduleCallButton
+          placement="page"
+          variant="onDark"
+          className="w-full"
+          businessUnit={businessUnit}
+          experience={experience}
+        />
       </div>
     </div>
   );

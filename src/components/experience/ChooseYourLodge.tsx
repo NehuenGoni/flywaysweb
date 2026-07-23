@@ -17,7 +17,7 @@ export function ChooseYourLodge({
   return (
     <div>
       <Reveal>
-        <Eyebrow>Where you'll stay</Eyebrow>
+        <Eyebrow>Where you&apos;ll stay</Eyebrow>
         <h2 className="font-display mt-3 text-3xl sm:text-4xl">{title}</h2>
         {intro && (
           <p className="mt-4 max-w-2xl text-lg leading-relaxed text-ink/75">{intro}</p>

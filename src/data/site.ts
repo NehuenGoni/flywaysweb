@@ -5,7 +5,7 @@ export const siteConfig = {
     "Premium dove hunting in Córdoba, Argentina. Orvis Endorsed and Beretta Trident certified, with twenty years of owner-run operation across dove, mixed bag, fly fishing and big game.",
   // Used by metadataBase / sitemap. Update to the production domain at launch.
   url: "https://www.flyways.com",
-  // TODO(client): confirm the real Calendly (or scheduling) URL for "Book a call".
+  // TODO(client): confirm the real Calendly (or scheduling) URL for "Schedule a Call".
   bookingUrl: "https://calendly.com/flyways/book-a-call",
   contact: {
     phone: "+1.786.207.2871",
