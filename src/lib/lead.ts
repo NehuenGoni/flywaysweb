@@ -13,6 +13,10 @@ import { z } from "zod";
 const shared = {
   email: z.string().email("Please enter a valid email"),
   phone: z.string().min(1, "Please enter a phone number"),
+  // Prefers a phone call over email — offered on both variants.
+  preferPhoneCall: z.boolean().optional(),
+  // Newsletter opt-in — pre-checked in the UI, offered on both variants.
+  subscribeNewsletter: z.boolean().optional(),
   // Honeypot — must stay empty. Bots fill it; humans don't see it.
   company: z.string().max(0).optional().or(z.literal("")),
   // Where the lead came from (page path), for routing/analytics.
@@ -35,7 +39,6 @@ export const leadFullSchema = z.object({
   dates: z.string().min(2, "Roughly when are you thinking?"),
   party: z.string().min(1, "How many in your party?"),
   message: z.string().max(2000).min(2, "Tell us a little about your trip"),
-  preferPhoneCall: z.boolean().optional(),
   agreeContact: z.literal(true, {
     error: "Please agree to be contacted to send this form",
   }),
@@ -65,13 +68,19 @@ export type NormalizedLead = {
 /** Collapse either variant into one shape for delivery (Odoo / logs). */
 export function normalizeLead(lead: LeadInput): NormalizedLead {
   if (lead.variant === "compact") {
+    const lines = [
+      "Submitted via the short contact form.",
+      lead.preferPhoneCall ? "Prefers a phone call." : null,
+      `Newsletter: ${lead.subscribeNewsletter ? "Yes" : "No"}`,
+    ].filter((line): line is string => Boolean(line));
+
     return {
       contactName: lead.name,
       email: lead.email,
       phone: lead.phone,
       variant: lead.variant,
       source: lead.source,
-      description: "Submitted via the short contact form.",
+      description: lines.join("\n"),
     };
   }
 
@@ -82,6 +91,7 @@ export function normalizeLead(lead: LeadInput): NormalizedLead {
     `State/Province: ${lead.state}`,
     lead.message ? `Message: ${lead.message}` : null,
     lead.preferPhoneCall ? "Prefers a phone call." : null,
+    `Newsletter: ${lead.subscribeNewsletter ? "Yes" : "No"}`,
     "Agreed to be contacted by FlyWays via email.",
   ].filter((line): line is string => Boolean(line));
 

@@ -73,6 +73,7 @@ export function trackLead({
   formName = "Main Contact Form",
   variant,
   source,
+  newsletterOptIn,
   businessUnit,
   experience,
 }: {
@@ -80,6 +81,8 @@ export function trackLead({
   variant: "compact" | "full";
   /** Ruta desde la que se envió el formulario (uso interno, no de la guía). */
   source: string;
+  /** Si tildó el checkbox de newsletter al enviar. */
+  newsletterOptIn?: boolean;
   businessUnit?: BusinessUnit;
   experience?: string;
 }) {
@@ -88,6 +91,7 @@ export function trackLead({
     form_name: formName,
     variant,
     source,
+    newsletter_opt_in: Boolean(newsletterOptIn),
     ...contextParams({ pageType: "Thank You", businessUnit, experience }),
   });
 }

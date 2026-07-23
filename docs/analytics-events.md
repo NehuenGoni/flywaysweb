@@ -26,7 +26,7 @@ triggers de GA4 sin tener que traducir nada.
 
 | Evento (`event`)  | Cuándo dispara                                              | Parámetros                                                              |
 | ------------------ | ------------------------------------------------------------ | ------------------------------------------------------------------------ |
-| `generate_lead`    | Envío exitoso del formulario de lead (conversión principal)  | `form_name`: `Main Contact Form` · `page_type`: `Thank You` · `language`: `EN` · `business_unit`, `experience` (si el envío ocurrió en una página de experiencia/lodge) |
+| `generate_lead`    | Envío exitoso del formulario de lead (conversión principal)  | `form_name`: `Main Contact Form` · `newsletter_opt_in`: `true`/`false` (si tildó el checkbox de newsletter) · `page_type`: `Thank You` · `language`: `EN` · `business_unit`, `experience` (si el envío ocurrió en una página de experiencia/lodge) |
 | `click_email`      | Clic en un enlace `mailto:`                                  | `cta_name`: `Email Us` · `page_type` · `language` · `business_unit`, `experience` (si aplica) |
 | `click_phone`      | Clic en un enlace `tel:`                                     | `cta_name`: `Call Us` · `page_type` · `language` · `business_unit`, `experience` (si aplica) |
 | `click_whatsapp`   | Clic en el enlace de WhatsApp                                | `cta_name`: `WhatsApp` · `page_type` · `language` · `business_unit`, `experience` (si aplica) |
@@ -45,6 +45,7 @@ GA4. No crear un tag de pageview manual para evitar duplicados.
 | `page_type`      | `Home` · `Experience` · `Lodge` · `Contact` · `About` (`/why-flyways`) · `Plan Your Trip` · `Thank You` |
 | `language`       | `EN` (constante — el sitio no tiene i18n, ver "Pendiente" abajo)                            |
 | `form_name`      | `Main Contact Form` (único formulario del sitio)                                          |
+| `newsletter_opt_in` | `true` \| `false` — boolean, checkbox pre-tildado por defecto en ambas variantes del form |
 | `cta_name`       | `Schedule a Call` · `Email Us` · `Call Us` · `WhatsApp`                                    |
 
 `page_type` se deriva automáticamente de la ruta actual

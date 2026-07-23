@@ -73,6 +73,11 @@ function toneClasses(tone: Tone, dense = false) {
         : "border-ink/15 text-ink placeholder:text-ink/35 focus:border-olive",
     ),
     errorCls: dark ? "text-sky" : "text-bark",
+    checkboxCls: cn(
+      "mt-0.5 h-4 w-4 shrink-0 rounded border",
+      dark ? "border-paper/40 accent-sky" : "border-ink/25 accent-olive",
+    ),
+    checkboxLabelCls: cn("text-sm", dark ? "text-paper/80" : "text-ink/70"),
   };
 }
 
@@ -142,16 +147,25 @@ function CompactForm({
     setError,
   } = useForm<LeadCompactInput>({
     resolver: zodResolver(leadCompactSchema),
-    defaultValues: { variant: "compact" },
+    defaultValues: { variant: "compact", preferPhoneCall: false, subscribeNewsletter: true },
   });
 
-  const { dark, labelCls, inputCls, errorCls } = toneClasses(tone, dense);
+  const { dark, labelCls, inputCls, errorCls, checkboxCls, checkboxLabelCls } = toneClasses(
+    tone,
+    dense,
+  );
 
   const onSubmit = async (data: LeadCompactInput) => {
     try {
       await postLead({ ...data, source: pathname });
       setSubmitted(true);
-      trackLead({ source: pathname, variant: "compact", businessUnit, experience });
+      trackLead({
+        source: pathname,
+        variant: "compact",
+        newsletterOptIn: data.subscribeNewsletter,
+        businessUnit,
+        experience,
+      });
     } catch {
       setError("root", {
         message: "Something went wrong. Please email us — we'll get right back to you.",
@@ -204,6 +218,24 @@ function CompactForm({
               />
             </Field>
 
+            <div className="space-y-2.5">
+              <label className="flex items-start gap-2.5">
+                <input type="checkbox" className={checkboxCls} {...register("preferPhoneCall")} />
+                <span className={checkboxLabelCls}>I prefer a phone call</span>
+              </label>
+
+              <label className="flex items-start gap-2.5">
+                <input
+                  type="checkbox"
+                  className={checkboxCls}
+                  {...register("subscribeNewsletter")}
+                />
+                <span className={checkboxLabelCls}>
+                  Keep me posted with FlyWays trips and openings (newsletter)
+                </span>
+              </label>
+            </div>
+
             {/* Honeypot — visually hidden, not for humans */}
             <div aria-hidden className="hidden">
               <label>
@@ -251,20 +283,22 @@ function FullForm({
     setError,
   } = useForm<LeadFullInput>({
     resolver: zodResolver(leadFullSchema),
-    defaultValues: { variant: "full", preferPhoneCall: false },
+    defaultValues: { variant: "full", preferPhoneCall: false, subscribeNewsletter: true },
   });
 
-  const { dark, labelCls, inputCls, errorCls } = toneClasses(tone);
-  const checkboxCls = cn(
-    "mt-0.5 h-4 w-4 shrink-0 rounded border",
-    dark ? "border-paper/40 accent-sky" : "border-ink/25 accent-olive",
-  );
+  const { dark, labelCls, inputCls, errorCls, checkboxCls, checkboxLabelCls } = toneClasses(tone);
 
   const onSubmit = async (data: LeadFullInput) => {
     try {
       await postLead({ ...data, source: pathname });
       setSubmitted(true);
-      trackLead({ source: pathname, variant: "full", businessUnit, experience });
+      trackLead({
+        source: pathname,
+        variant: "full",
+        newsletterOptIn: data.subscribeNewsletter,
+        businessUnit,
+        experience,
+      });
     } catch {
       setError("root", {
         message: "Something went wrong. Please email us — we'll get right back to you.",
@@ -392,14 +426,23 @@ function FullForm({
             <div className="sm:col-span-2 space-y-3">
               <label className="flex items-start gap-2.5">
                 <input type="checkbox" className={checkboxCls} {...register("preferPhoneCall")} />
-                <span className={cn("text-sm", dark ? "text-paper/80" : "text-ink/70")}>
-                  I prefer a phone call
+                <span className={checkboxLabelCls}>I prefer a phone call</span>
+              </label>
+
+              <label className="flex items-start gap-2.5">
+                <input
+                  type="checkbox"
+                  className={checkboxCls}
+                  {...register("subscribeNewsletter")}
+                />
+                <span className={checkboxLabelCls}>
+                  Keep me posted with FlyWays trips and openings (newsletter)
                 </span>
               </label>
 
               <label className="flex items-start gap-2.5">
                 <input type="checkbox" className={checkboxCls} {...register("agreeContact")} />
-                <span className={cn("text-sm", dark ? "text-paper/80" : "text-ink/70")}>
+                <span className={checkboxLabelCls}>
                   I agree to be contacted by FlyWays via email. To opt out, you can click the
                   unsubscribe link in the emails.
                 </span>
