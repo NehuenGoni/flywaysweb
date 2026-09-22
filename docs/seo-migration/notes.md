@@ -17,8 +17,10 @@ en `redirects-map.json` son la mejor aproximación temática disponible, no un 1
 
 ## Decisiones ya tomadas con el cliente
 
-- **Lodges de big game sin página propia** (Mountain Lodge, Rincón de Luna, Los Araucanos): 301 temporal
-  a `/experiences/big-game`. Revisar cuando existan esas páginas — hoy pierden especificidad de ranking.
+- **Lodges de big game sin página propia** (Los Araucanos): 301 temporal
+  a `/experiences/big-game`. Revisar cuando exista esa página — hoy pierde especificidad de ranking.
+  Mountain Lodge ya tiene página propia. Estancia Rincón de Luna se dio de baja (el cliente dejó de
+  operar la propiedad) y su página se eliminó; su redirect ahora apunta también a `/experiences/big-game`.
 - **Contenido sin destino directo** (photos/videos/reviews/articles/blog/newsletter/calendar): 301 a la
   página temática más cercana en vez de un fallback genérico a home, para conservar la mayor relevancia
   posible ante Google.

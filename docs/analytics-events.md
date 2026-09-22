@@ -26,13 +26,13 @@ triggers de GA4 sin tener que traducir nada.
 
 | Evento (`event`)  | Cuándo dispara                                              | Parámetros                                                              |
 | ------------------ | ------------------------------------------------------------ | ------------------------------------------------------------------------ |
-| `generate_lead`    | Envío exitoso del formulario de lead (conversión principal)  | `form_name`: `Main Contact Form` · `newsletter_opt_in`: `true`/`false` (si tildó el checkbox de newsletter) · `page_type`: `Thank You` · `language`: `EN` · `business_unit`, `experience` (si el envío ocurrió en una página de experiencia/lodge) |
+| `generate_lead`    | Envío exitoso de cualquiera de los tres formularios (conversión principal) | `form_name`: `Main Contact Form` \| `Join the FlyWays Community` · `variant`: `compact` \| `full` \| `newsletter` · `newsletter_opt_in`: `true`/`false` · `page_type`: `Thank You` · `language`: `EN` · `business_unit`, `experience` (si aplica) |
 | `click_email`      | Clic en un enlace `mailto:`                                  | `cta_name`: `Email Us` · `page_type` · `language` · `business_unit`, `experience` (si aplica) |
 | `click_phone`      | Clic en un enlace `tel:`                                     | `cta_name`: `Call Us` · `page_type` · `language` · `business_unit`, `experience` (si aplica) |
 | `click_whatsapp`   | Clic en el enlace de WhatsApp                                | `cta_name`: `WhatsApp` · `page_type` · `language` · `business_unit`, `experience` (si aplica) |
-| `click_cta`        | Clic en el CTA "Schedule a Call" (Calendly)                   | `cta_name`: `Schedule a Call` · `placement`: `header` \| `mobile-nav` \| `page` · `page_type` · `language` · `business_unit`, `experience` (si aplica) |
+| `click_cta`        | Clic en el CTA "Schedule a Call" — **ahora abre el modal del formulario en vez de salir a Calendly** | `cta_name`: `Schedule a Call` · `placement`: `header` \| `mobile-nav` \| `page` · `page_type` · `language` · `business_unit`, `experience` (si aplica) |
 | `view_experience`  | Carga de una página de experiencia individual                | `experience` · `business_unit` · `page_type`: `Experience` · `language`: `EN` |
-| `click_nav`        | Clic en un ítem del submenú del navbar (Experiences / The Lodges) | `nav_item` · `nav_group`: `Experiences` \| `The Lodges` · `placement`: `header` \| `mobile-nav` · `page_type` · `language` · `business_unit`, `experience` (si aplica) |
+| `click_nav`        | Clic en un ítem del submenú del navbar (ahora 3 niveles: Experiences → experiencia → lodges) | `nav_item` · `nav_group`: `Experiences` (clic en una experiencia) o el `navLabel` de la experiencia padre (ej. `Dove Hunting`, clic en uno de sus lodges) · `placement`: `header` \| `mobile-nav` · `page_type` · `language` · `business_unit`, `experience` (si aplica) |
 
 `page_view` **no** se empuja manualmente: lo aporta el Enhanced Measurement de
 GA4. No crear un tag de pageview manual para evitar duplicados.
@@ -41,15 +41,20 @@ GA4. No crear un tag de pageview manual para evitar duplicados.
 
 | Parámetro       | Valores                                                                                  |
 | ---------------- | ------------------------------------------------------------------------------------------ |
-| `business_unit`  | `Hunting` (Dove Hunting, Mixed Bag, Big Game) · `Fishing` (Fly Fishing)                    |
-| `experience`     | `Dove Hunting` · `Mixed Bag` · `Fly Fishing` · `Big Game` (= `navLabel` de cada experiencia) |
+| `business_unit`  | `Hunting` (Dove Hunting, Mixed Bag, Big Game, **Beyond the Hunt** — ver nota abajo) · `Fishing` (Fly Fishing) |
+| `experience`     | `Dove Hunting` · `Mixed Bag` · `Fly Fishing` · `Big Game` · `Beyond the Hunt` (= `navLabel` de cada experiencia) |
 | `page_type`      | `Home` · `Experience` · `Lodge` · `Contact` · `About` (`/why-flyways`) · `Plan Your Trip` · `Thank You` |
 | `language`       | `EN` (constante — el sitio no tiene i18n, ver "Pendiente" abajo)                            |
-| `form_name`      | `Main Contact Form` (único formulario del sitio)                                          |
-| `newsletter_opt_in` | `true` \| `false` — boolean, checkbox pre-tildado por defecto en ambas variantes del form |
+| `form_name`      | `Main Contact Form` (Schedule a Call, variantes compact/full) · `Join the FlyWays Community` (pop-up de newsletter) |
+| `newsletter_opt_in` | `true` \| `false` — boolean, checkbox pre-tildado por defecto en compact/full; siempre `true` en el form de newsletter |
 | `cta_name`       | `Schedule a Call` · `Email Us` · `Call Us` · `WhatsApp`                                    |
-| `nav_group`      | `Experiences` · `The Lodges`                                                               |
-| `nav_item`       | `navLabel` de cada experiencia (ver arriba) · nombre del lodge (ej. `Los Chañares`) · `All lodges` |
+| `nav_group`      | `Experiences` (clic en experiencia) · `navLabel` de la experiencia padre (clic en uno de sus lodges anidados, ej. `Dove Hunting`) |
+| `nav_item`       | `navLabel` de cada experiencia · nombre del lodge (ej. `Los Chañares`)                      |
+
+**Nota sobre `Beyond the Hunt`**: no es caza ni pesca — se decidió tratarla
+como `business_unit: "Hunting"` para no fragmentar los eventos de GA4 en una
+tercera unidad de negocio no contemplada en la guía original de marketing.
+**Confirmar con marketing** antes de que la agencia arme triggers sobre esto.
 
 `page_type` se deriva automáticamente de la ruta actual
 (`pageTypeFromPathname` en `src/lib/analytics.ts`); no hace falta pasarlo a

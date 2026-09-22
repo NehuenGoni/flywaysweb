@@ -8,33 +8,21 @@ import { Logo } from "@/components/brand/Logo";
 import { experienceIcons } from "@/components/brand/icons";
 import { ScheduleCallButton } from "@/components/ui/ScheduleCallButton";
 import { Container } from "@/components/ui/Container";
-import { mainNav, type NavChild, type NavItem } from "@/data/site";
+import { mainNav, type NavChild, type NavGrandchild, type NavItem } from "@/data/site";
 import {
   businessUnitForExperienceIcon,
   pageTypeFromPathname,
   trackNavClick,
-  type BusinessUnit,
 } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-// Only "Experiences" and "The Lodges" carry a submenu today; the cast below
-// is safe because `navChildContext` is only ever called for those two items.
-type NavGroup = "Experiences" | "The Lodges";
-
-/** Derives the analytics context (business_unit/experience) for a submenu child. */
-function navChildContext(group: NavGroup, child: NavChild) {
-  if (child.icon) {
-    return {
-      businessUnit: businessUnitForExperienceIcon(child.icon) as BusinessUnit | undefined,
-      experience: child.label,
-    };
-  }
-  if (group === "The Lodges" && child.href !== "/lodges") {
-    return { businessUnit: "Hunting" as BusinessUnit | undefined, experience: undefined };
-  }
-  return { businessUnit: undefined, experience: undefined };
+/** Derives the analytics context (business_unit/experience) for an experience-level submenu child. */
+function experienceContext(child: NavChild) {
+  return child.icon
+    ? { businessUnit: businessUnitForExperienceIcon(child.icon), experience: child.label }
+    : { businessUnit: undefined, experience: undefined };
 }
 
 export function Header() {
@@ -131,8 +119,6 @@ function NavLink({ item, pathname }: { item: NavItem; pathname: string }) {
     );
   }
 
-  const group = item.label as NavGroup;
-
   const openNow = () => {
     clearTimeout(closeTimeout.current);
     setOpen(true);
@@ -192,7 +178,7 @@ function NavLink({ item, pathname }: { item: NavItem; pathname: string }) {
             className="absolute left-1/2 top-full z-10 mt-3 w-72 -translate-x-1/2 rounded-2xl border border-ink/10 bg-paper p-2 text-ink shadow-xl"
           >
             {item.children.map((child) => (
-              <NavMenuChild key={child.href} child={child} group={group} pathname={pathname} />
+              <NavMenuChild key={child.href} child={child} group={item.label} pathname={pathname} />
             ))}
           </motion.div>
         )}
@@ -201,43 +187,129 @@ function NavLink({ item, pathname }: { item: NavItem; pathname: string }) {
   );
 }
 
+/** A submenu row. When it has children, hovering/focusing it opens a flyout panel to the right. */
 function NavMenuChild({
   child,
   group,
   pathname,
 }: {
   child: NavChild;
-  group: NavGroup;
+  group: string;
   pathname: string;
 }) {
   const Icon = child.icon ? experienceIcons[child.icon] : null;
+  const ctx = experienceContext(child);
+  const hasChildren = Boolean(child.children && child.children.length > 0);
+  const [open, setOpen] = useState(false);
+  const closeTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  useEffect(() => () => clearTimeout(closeTimeout.current), []);
+
+  const openNow = () => {
+    clearTimeout(closeTimeout.current);
+    setOpen(true);
+  };
+  const closeSoon = () => {
+    closeTimeout.current = setTimeout(() => setOpen(false), 150);
+  };
 
   return (
+    <div
+      className="relative"
+      onMouseEnter={hasChildren ? openNow : undefined}
+      onMouseLeave={hasChildren ? closeSoon : undefined}
+      onFocus={hasChildren ? openNow : undefined}
+      onBlur={
+        hasChildren
+          ? (e) => {
+              if (!e.currentTarget.contains(e.relatedTarget as Node)) setOpen(false);
+            }
+          : undefined
+      }
+    >
+      <Link
+        href={child.href}
+        role="menuitem"
+        aria-haspopup={hasChildren ? "menu" : undefined}
+        aria-expanded={hasChildren ? open : undefined}
+        onClick={() =>
+          trackNavClick({
+            item: child.label,
+            group,
+            placement: "header",
+            ...ctx,
+            context: { pageType: pageTypeFromPathname(pathname) },
+          })
+        }
+        className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors hover:bg-ink/5"
+      >
+        {Icon && (
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-teal/8 text-teal">
+            <Icon className="h-4 w-4" />
+          </span>
+        )}
+        <span className="flex-1 font-medium">{child.label}</span>
+        {hasChildren && (
+          <span aria-hidden className="text-[0.6rem] text-ink/40">
+            ▸
+          </span>
+        )}
+      </Link>
+
+      <AnimatePresence>
+        {hasChildren && open && (
+          <motion.div
+            role="menu"
+            initial={{ opacity: 0, x: -6 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -6 }}
+            transition={{ duration: 0.15, ease: EASE }}
+            className="absolute left-full top-0 z-10 ml-2 w-64 rounded-2xl border border-ink/10 bg-paper p-2 text-ink shadow-xl"
+          >
+            {child.children!.map((lodge) => (
+              <NavMenuGrandchild
+                key={lodge.href}
+                lodge={lodge}
+                group={child.label}
+                businessUnit={ctx.businessUnit}
+                pathname={pathname}
+              />
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+function NavMenuGrandchild({
+  lodge,
+  group,
+  businessUnit,
+  pathname,
+}: {
+  lodge: NavGrandchild;
+  group: string;
+  businessUnit: ReturnType<typeof experienceContext>["businessUnit"];
+  pathname: string;
+}) {
+  return (
     <Link
-      href={child.href}
+      href={lodge.href}
       role="menuitem"
       onClick={() =>
         trackNavClick({
-          item: child.label,
+          item: lodge.label,
           group,
           placement: "header",
-          ...navChildContext(group, child),
+          businessUnit,
           context: { pageType: pageTypeFromPathname(pathname) },
         })
       }
-      className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors hover:bg-ink/5"
+      className="block rounded-lg px-3 py-1.5 text-sm text-ink/70 transition-colors hover:bg-ink/5 hover:text-ink"
     >
-      {Icon && (
-        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-teal/8 text-teal">
-          <Icon className="h-4 w-4" />
-        </span>
-      )}
-      <span className="flex-1">
-        <span className="block font-medium">{child.label}</span>
-        {child.sublabel && (
-          <span className="block text-xs text-ink/55">{child.sublabel}</span>
-        )}
-      </span>
+      {lodge.label}
+      {lodge.sublabel && <span className="block text-xs text-ink/45">{lodge.sublabel}</span>}
     </Link>
   );
 }
@@ -329,7 +401,6 @@ function MobileNavGroup({
   onNavigate: () => void;
 }) {
   const [expanded, setExpanded] = useState(false);
-  const group = item.label as NavGroup;
 
   return (
     <div className="border-b border-paper/10">
@@ -369,25 +440,52 @@ function MobileNavGroup({
             className="overflow-hidden"
           >
             <div className="flex flex-col gap-0.5 pb-3 pl-1">
-              {item.children!.map((child) => (
-                <Link
-                  key={child.href}
-                  href={child.href}
-                  onClick={() => {
-                    trackNavClick({
-                      item: child.label,
-                      group,
-                      placement: "mobile-nav",
-                      ...navChildContext(group, child),
-                      context: { pageType: pageTypeFromPathname(pathname) },
-                    });
-                    onNavigate();
-                  }}
-                  className="flex items-center py-2.5 text-lg text-paper/85"
-                >
-                  {child.label}
-                </Link>
-              ))}
+              {item.children!.map((child) => {
+                const ctx = experienceContext(child);
+                return (
+                  <div key={child.href}>
+                    <Link
+                      href={child.href}
+                      onClick={() => {
+                        trackNavClick({
+                          item: child.label,
+                          group: item.label,
+                          placement: "mobile-nav",
+                          ...ctx,
+                          context: { pageType: pageTypeFromPathname(pathname) },
+                        });
+                        onNavigate();
+                      }}
+                      className="flex items-center py-2.5 text-lg text-paper/85"
+                    >
+                      {child.label}
+                    </Link>
+                    {child.children && child.children.length > 0 && (
+                      <div className="ml-3 flex flex-col gap-0.5 border-l border-paper/15 pl-4 pb-2">
+                        {child.children.map((lodge) => (
+                          <Link
+                            key={lodge.href}
+                            href={lodge.href}
+                            onClick={() => {
+                              trackNavClick({
+                                item: lodge.label,
+                                group: child.label,
+                                placement: "mobile-nav",
+                                businessUnit: ctx.businessUnit,
+                                context: { pageType: pageTypeFromPathname(pathname) },
+                              });
+                              onNavigate();
+                            }}
+                            className="py-2 text-base text-paper/70"
+                          >
+                            {lodge.label}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </motion.div>
         )}

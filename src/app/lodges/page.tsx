@@ -4,16 +4,16 @@ import { Section, Eyebrow } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { LodgeCard } from "@/components/lodge/LodgeCard";
 import { CtaBand } from "@/components/sections/CtaBand";
-import { lodgesByCategory } from "@/content/lodges";
+import { lodgeGroups } from "@/content/index";
 
 export const metadata: Metadata = {
   title: "The Lodges",
   description:
-    "FlyWays lodges, organized by experience: dove hunting in Córdoba (Los Chañares, Posta del Norte) and fly fishing in Patagonia.",
+    "Every FlyWays lodge, grouped by experience: dove hunting in Córdoba, mixed bag in Buenos Aires, big game in the Córdoba hills.",
 };
 
 export default function LodgesPage() {
-  const groups = lodgesByCategory();
+  const groups = lodgeGroups();
 
   return (
     <>
@@ -24,15 +24,15 @@ export default function LodgesPage() {
       />
 
       {groups.map((group, gi) => (
-        <Section key={group.category} tone={gi % 2 === 0 ? "paper" : "paperDim"}>
+        <Section key={group.experience.slug} tone={gi % 2 === 0 ? "paper" : "paperDim"}>
           <Reveal>
-            <Eyebrow>{group.category}</Eyebrow>
+            <Eyebrow>{group.experience.navLabel}</Eyebrow>
             <h2 className="font-display mt-3 text-3xl sm:text-4xl">
-              {group.category} lodges
+              {group.experience.navLabel} lodges
             </h2>
           </Reveal>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {group.items.map((lodge, i) => (
+            {group.lodges.map((lodge, i) => (
               <Reveal key={lodge.slug} delay={i * 0.06}>
                 <LodgeCard lodge={lodge} />
               </Reveal>

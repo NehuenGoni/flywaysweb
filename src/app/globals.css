@@ -50,6 +50,27 @@ body {
   color: var(--color-paper);
 }
 
+/* Endorsements marquee: several copies of the track sit side by side
+   (enough to outspan any viewport) and translate by exactly one copy's
+   width via --marquee-end, so the loop seams invisibly. Paused on hover
+   so a visitor can read a logo. */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(var(--marquee-end, -50%));
+  }
+}
+
+.animate-marquee {
+  animation: marquee 56s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
 /* Respect reduced motion globally */
 @media (prefers-reduced-motion: reduce) {
   html {

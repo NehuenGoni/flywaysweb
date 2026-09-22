@@ -6,13 +6,15 @@ import { LeadForm } from "@/components/contact/LeadForm";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 // One shot per browser tab/session — sessionStorage clears when the tab closes.
-const SESSION_KEY = "flyways-lead-popup-shown";
+const SESSION_KEY = "flyways-newsletter-popup-shown";
 const DELAY_MS = 5000;
 
 /**
- * First-visit lead capture: shows the compact form as a dismissible modal
- * a few seconds into the session, once per tab. Mounted site-wide in the
- * root layout so it can fire from whichever page a visitor lands on.
+ * "Join the FlyWays Community" — the top-of-funnel newsletter pop-up
+ * (First/Last/Email → SUBSCRIBE), distinct from the Schedule a Call form.
+ * Fires automatically a few seconds into the session, once per tab.
+ * Mounted site-wide in the root layout so it can fire from whichever page
+ * a visitor lands on.
  */
 export function LeadPopup() {
   const [open, setOpen] = useState(false);
@@ -56,7 +58,7 @@ export function LeadPopup() {
             key="panel"
             role="dialog"
             aria-modal="true"
-            aria-labelledby="lead-popup-heading"
+            aria-labelledby="newsletter-popup-heading"
             initial={{ opacity: 0, y: 16, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.97 }}
@@ -74,17 +76,20 @@ export function LeadPopup() {
             </button>
 
             <div className="font-display text-xs uppercase tracking-[0.2em] text-olive">
-              Plan your trip
+              Join the FlyWays Community
             </div>
-            <h2 id="lead-popup-heading" className="font-display mt-1.5 text-xl">
-              Let&apos;s start the conversation
+            <h2 id="newsletter-popup-heading" className="font-display mt-1.5 text-xl">
+              Join the FlyWays Community
             </h2>
             <p className="mt-1.5 text-sm text-ink/70">
-              Leave your details and a real person from FlyWays will reach out.
+              Subscribe to receive exclusive deals, seasonal promotions, trip
+              availability, and the latest news from FlyWays Argentina.
+              Don&apos;t miss out on special opportunities available only to
+              our subscribers.
             </p>
 
             <div className="mt-5">
-              <LeadForm tone="light" variant="compact" dense />
+              <LeadForm tone="light" variant="newsletter" dense />
             </div>
           </motion.div>
         </motion.div>

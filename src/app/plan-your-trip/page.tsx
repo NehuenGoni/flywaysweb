@@ -5,8 +5,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { LodgeCard } from "@/components/lodge/LodgeCard";
 import { PlanRoute } from "@/components/plan/PlanRoute";
 import { LeadSection } from "@/components/sections/LeadSection";
-import { lodges } from "@/content/lodges";
-import { getExperience } from "@/content/experiences";
+import { getExperience, lodgesForExperience } from "@/content/index";
 
 export const metadata: Metadata = {
   title: "Plan your trip",
@@ -15,8 +14,12 @@ export const metadata: Metadata = {
 };
 
 export default function PlanYourTripPage() {
-  const doveLodges = lodges.filter((l) => l.category === "Dove hunting");
-  const seasonRows = getExperience("dove-hunting-cordoba")?.seasons?.rows ?? [];
+  const doveExperience = getExperience("dove-hunting-cordoba");
+  const doveLodges = doveExperience ? lodgesForExperience(doveExperience) : [];
+  // The dove-hunting experience doesn't carry its own WhenToCome table (the
+  // per-lodge ones are the source of truth) — fall back to the first lodge's.
+  const whenToCome = doveExperience?.whenToCome ?? doveLodges[0]?.whenToCome;
+  const seasonColumns = whenToCome?.columns ?? [];
 
   return (
     <>
@@ -39,18 +42,18 @@ export default function PlanYourTripPage() {
           </p>
         </Reveal>
         <div className="mt-10 grid gap-5 sm:grid-cols-2">
-          {seasonRows.map((row, i) => (
-            <Reveal key={row.name} delay={i * 0.08}>
+          {seasonColumns.map((col, i) => (
+            <Reveal key={col.id} delay={i * 0.08}>
               <div className="h-full rounded-2xl border border-ink/10 bg-paper p-7">
                 <div className="flex items-baseline justify-between gap-4">
-                  <h3 className="font-display text-xl">{row.name}</h3>
+                  <h3 className="font-display text-xl">{col.name}</h3>
                   <span className="text-xs uppercase tracking-[0.14em] text-olive">
-                    {row.window}
+                    {col.window}
                   </span>
                 </div>
-                <p className="mt-3 text-sm leading-relaxed text-ink/70">
-                  {row.description}
-                </p>
+                {col.summary && (
+                  <p className="mt-3 text-sm leading-relaxed text-ink/70">{col.summary}</p>
+                )}
               </div>
             </Reveal>
           ))}

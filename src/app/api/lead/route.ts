@@ -1,16 +1,23 @@
 import { NextResponse } from "next/server";
 import { leadSchema, normalizeLead } from "@/lib/lead";
 import { createOdooLead, isOdooConfigured } from "@/lib/odoo";
+import { verifyRecaptcha } from "@/lib/recaptcha";
+import { isRateLimited, clientIp } from "@/lib/rate-limit";
 
 /**
- * Single lead endpoint for both form variants (compact + full).
+ * Single lead endpoint for all form variants (compact, full, newsletter).
  *
- * Validates, drops bot submissions (honeypot), then delivers the lead to
- * Odoo (crm.lead) when ODOO_* env vars are configured. Without them it
- * just logs server-side, so the site works end-to-end in dev/preview
- * before the client hands over credentials.
+ * Validates, rate-limits, drops bot submissions (honeypot + reCAPTCHA when
+ * configured), then delivers the lead to Odoo (crm.lead) when ODOO_* env
+ * vars are configured. Without them it just logs server-side, so the site
+ * works end-to-end in dev/preview before the client hands over credentials.
  */
 export async function POST(request: Request) {
+  const ip = clientIp(request);
+  if (isRateLimited(ip)) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  }
+
   let body: unknown;
   try {
     body = await request.json();
@@ -29,6 +36,12 @@ export async function POST(request: Request) {
   // Honeypot tripped → pretend success, do nothing.
   if (parsed.data.company) {
     return NextResponse.json({ ok: true });
+  }
+
+  const recaptchaOk = await verifyRecaptcha(parsed.data.recaptchaToken);
+  if (!recaptchaOk) {
+    console.warn("[lead] reCAPTCHA verification failed", { ip });
+    return NextResponse.json({ error: "Verification failed" }, { status: 422 });
   }
 
   const lead = normalizeLead(parsed.data);

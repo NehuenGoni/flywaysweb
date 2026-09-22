@@ -2,6 +2,10 @@ export type Testimonial = {
   quote: string;
   author: string;
   detail: string;
+  /** 1–5. Omitted falls back to a full 5-star display. */
+  rating?: number;
+  /** A video testimonial's URL — the client's document asks for text AND video. */
+  videoUrl?: string;
 };
 
 /**

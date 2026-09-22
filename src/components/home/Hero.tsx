@@ -26,7 +26,7 @@ export function Hero() {
           transition={{ duration: 0.6, ease: EASE }}
           className="font-display text-xs uppercase tracking-[0.32em] text-sky"
         >
-          Argentina · Est. 20 years
+          FlyWays Argentina · Est. 20 years
         </motion.p>
 
         <motion.h1
@@ -35,28 +35,17 @@ export function Hero() {
           transition={{ duration: 0.7, ease: EASE, delay: 0.08 }}
           className="font-display mt-5 max-w-4xl text-4xl leading-[1.04] sm:text-6xl lg:text-7xl"
         >
-          Argentina&apos;s premium hunting experiences.
+          Argentina&apos;s finest hunting and fishing.
         </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: EASE, delay: 0.16 }}
-          className="mt-6 max-w-xl text-lg text-paper/80 sm:text-xl"
-        >
-          Two decades in the field. Orvis Endorsed, Beretta certified, and
-          owner-run on every trip. World-class dove hunting in Córdoba, wild trout
-          in Patagonia — and everything worth doing while you&apos;re here.
-        </motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: EASE, delay: 0.24 }}
+          transition={{ duration: 0.7, ease: EASE, delay: 0.16 }}
           className="mt-9 flex flex-col gap-3 sm:flex-row"
         >
           <ButtonLink href="/experiences" variant="onDark" size="lg">
-            Explore the experiences
+            More Info
           </ButtonLink>
           <ScheduleCallButton
             placement="page"

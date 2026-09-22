@@ -3,11 +3,11 @@
   "redirects": [
     {
       "old_url": "/rates.html",
-      "new_url": "/lodges",
+      "new_url": "/rates",
       "domain": "www.flyways.com",
       "status": 301,
       "pattern": false,
-      "notes": "No existe una página única de 'rates' en el sitio nuevo: las tarifas viven embebidas por lodge (RatesTable). Redirige al listado de lodges. Revisar si conviene una página /rates agregada por valor SEO propio."
+      "notes": "El sitio nuevo ahora tiene /rates (derivada de las tarifas por lodge ya publicadas). Actualizado desde el destino provisional /lodges tras el documento final del cliente."
     },
     {
       "old_url": "/trip-planning.html",
@@ -19,19 +19,19 @@
     },
     {
       "old_url": "/book-now.html",
-      "new_url": "/contact",
+      "new_url": "/schedule-a-call",
       "domain": "www.flyways.com",
       "status": 301,
       "pattern": false,
-      "notes": "El CTA principal de reserva (Schedule a Call) vive en /contact."
+      "notes": "Schedule a Call pasó a tener su propia página dedicada (/schedule-a-call, también accesible como modal desde cualquier CTA). Actualizado desde el destino provisional /contact."
     },
     {
       "old_url": "/photos.html",
-      "new_url": "/",
+      "new_url": "/gallery/photo",
       "domain": "www.flyways.com",
       "status": 301,
       "pattern": false,
-      "notes": "No existe galería standalone en el sitio nuevo. Home es el destino temático más cercano (hero visual)."
+      "notes": "El sitio nuevo ahora tiene /gallery/photo (shell noindex hasta que llegue la fotografía final). Actualizado desde el destino provisional home."
     },
     {
       "old_url": "/photos/posta-del-norte-pictures.html",
@@ -43,19 +43,19 @@
     },
     {
       "old_url": "/videos.html",
-      "new_url": "/",
+      "new_url": "/gallery/video",
       "domain": "www.flyways.com",
       "status": 301,
       "pattern": false,
-      "notes": "El embed de Vimeo del hero vive en home. No hay página de videos standalone en el sitio nuevo."
+      "notes": "El sitio nuevo ahora tiene /gallery/video (shell noindex hasta que llegue el video final). Actualizado desde el destino provisional home."
     },
     {
       "old_url": "/other-activities.html",
-      "new_url": "/why-flyways",
+      "new_url": "/experiences/beyond-the-hunt",
       "domain": "www.flyways.com",
       "status": 301,
       "pattern": false,
-      "notes": "Contenido de 'más allá de la caza' más cercano al storytelling de marca en why-flyways."
+      "notes": "El sitio nuevo ahora tiene una experiencia 'Beyond the Hunt' que fusiona este contenido (golf, polo, estancias, bodega, etc.). Actualizado desde el destino provisional /why-flyways."
     },
     {
       "old_url": "/reviews.html",
@@ -99,11 +99,11 @@
     },
     {
       "old_url": "/newsletter.html",
-      "new_url": "/",
+      "new_url": "/why-flyways/newsletter",
       "domain": "www.flyways.com",
       "status": 301,
       "pattern": false,
-      "notes": "Archivo de newsletters no migrado. Home como fallback; considerar mecanismo de suscripción en /contact si se quiere retomar."
+      "notes": "El sitio nuevo ahora tiene un formulario real de newsletter en /why-flyways/newsletter (mismo pop-up 'Join the FlyWays Community', como página). Actualizado desde el destino provisional home."
     },
     {
       "old_url": "/calendar/",
@@ -219,11 +219,11 @@
     },
     {
       "old_url": "/big-game/mountain-lodge-book-now.html",
-      "new_url": "/experiences/big-game",
+      "new_url": "/lodges/mountain-lodge",
       "domain": "landings.flyways.com",
       "status": 301,
       "pattern": false,
-      "notes": "GAP DE CONTENIDO: Mountain Lodge no tiene página propia en el sitio nuevo (experiences.ts → big-game tiene lodgeSlugs: []). Redirect temporal a la categoría, aprobado por el cliente. Revisar cuando se construya la página de esta lodge."
+      "notes": "Ya no es un gap: el documento final del cliente trajo copy completo para Mountain Lodge, que ahora tiene página propia. Actualizado desde el destino provisional /experiences/big-game."
     },
     {
       "old_url": "/big-game/rincn-de-luna-book-now.html",
@@ -231,7 +231,7 @@
       "domain": "landings.flyways.com",
       "status": 301,
       "pattern": false,
-      "notes": "GAP DE CONTENIDO: Rincón de Luna no tiene página propia en el sitio nuevo. Redirect temporal a la categoría, aprobado por el cliente. Revisar cuando se construya la página de esta lodge."
+      "notes": "Estancia Rincón de Luna se dio de baja (propiedad ya no operada por el cliente) y se eliminó su página. Redirigido a la experiencia /experiences/big-game."
     },
     {
       "old_url": "/big-game/los-araucanos-book-now.html",
@@ -259,27 +259,51 @@
     },
     {
       "old_url": "/flyfishing/la-caridad-book-now.html",
-      "new_url": "/lodges/la-caridad",
+      "new_url": "/experiences/fly-fishing-patagonia",
       "domain": "landings.flyways.com",
       "status": 301,
       "pattern": false,
-      "notes": "Mismo slug ya existente en el sitio nuevo. Alta confianza."
+      "notes": "ACTUALIZADO: el documento final del cliente reestructuró Fly Fishing de lodges a programas guiados (Echoes of Patagonia, Nomad Fishing Experience) — La Caridad Lodge ya no existe como entidad en el sitio nuevo. Redirige al overview de la experiencia en lugar del slug de lodge eliminado."
     },
     {
       "old_url": "/flyfishing/tecka-lodge-book-now.html",
-      "new_url": "/lodges/tecka",
+      "new_url": "/experiences/fly-fishing-patagonia",
       "domain": "landings.flyways.com",
       "status": 301,
       "pattern": false,
-      "notes": "Mismo slug ya existente en el sitio nuevo. Alta confianza."
+      "notes": "ACTUALIZADO: mismo motivo que La Caridad — Tecka Lodge ya no existe como entidad en el sitio nuevo."
     },
     {
       "old_url": "/flyfishing/el-dorado-book-now.html",
-      "new_url": "/lodges/el-dorado",
+      "new_url": "/experiences/fly-fishing-patagonia",
       "domain": "landings.flyways.com",
       "status": 301,
       "pattern": false,
-      "notes": "Mismo slug ya existente en el sitio nuevo. Alta confianza."
+      "notes": "ACTUALIZADO: mismo motivo que La Caridad — El Dorado Lodge ya no existe como entidad en el sitio nuevo."
+    },
+    {
+      "old_url": "/lodges/la-caridad",
+      "new_url": "/experiences/fly-fishing-patagonia",
+      "domain": "www.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "NUEVO: estas tres URLs del propio sitio Next.js existieron durante un tiempo (antes de que Fly Fishing pasara de lodges a programas) y pueden estar indexadas o linkeadas externamente. Sin este redirect interno, dan 404."
+    },
+    {
+      "old_url": "/lodges/tecka",
+      "new_url": "/experiences/fly-fishing-patagonia",
+      "domain": "www.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "NUEVO — ver nota en /lodges/la-caridad."
+    },
+    {
+      "old_url": "/lodges/el-dorado",
+      "new_url": "/experiences/fly-fishing-patagonia",
+      "domain": "www.flyways.com",
+      "status": 301,
+      "pattern": false,
+      "notes": "NUEVO — ver nota en /lodges/la-caridad."
     },
     {
       "old_url": "/:slug.html",

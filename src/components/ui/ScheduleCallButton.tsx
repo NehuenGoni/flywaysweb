@@ -1,8 +1,8 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { ButtonLink } from "@/components/ui/Button";
-import { siteConfig } from "@/data/site";
+import { Button, ButtonLink } from "@/components/ui/Button";
+import { useScheduleCall } from "@/components/contact/ScheduleCallContext";
 import {
   pageTypeFromPathname,
   trackCtaClick,
@@ -12,10 +12,12 @@ import {
 type ButtonLinkProps = React.ComponentProps<typeof ButtonLink>;
 
 /**
- * The site's single conversion CTA (Calendly), rendered consistently as
- * "Schedule a Call →" everywhere. Centralizes both the copy and the
- * click_cta tracking so every call site emits the same cta_name and picks
- * up the right page_type automatically — see src/lib/analytics.ts.
+ * The site's single conversion CTA, rendered consistently as
+ * "Schedule a Call →" everywhere. Opens the site-wide Schedule a Call modal
+ * (see ScheduleCallContext/ScheduleCallModal) rather than linking out —
+ * centralizes both the copy and the click_cta tracking so every call site
+ * emits the same cta_name and picks up the right page_type automatically.
+ * See src/lib/analytics.ts.
  */
 export function ScheduleCallButton({
   placement,
@@ -34,15 +36,15 @@ export function ScheduleCallButton({
   className?: string;
 }) {
   const pathname = usePathname();
+  const { openModal } = useScheduleCall();
 
   return (
-    <ButtonLink
-      href={siteConfig.bookingUrl}
-      external
+    <Button
+      type="button"
       variant={variant}
       size={size}
       className={className}
-      onClick={() =>
+      onClick={() => {
         trackCtaClick({
           placement,
           context: {
@@ -50,10 +52,11 @@ export function ScheduleCallButton({
             businessUnit,
             experience,
           },
-        })
-      }
+        });
+        openModal({ businessUnit, experience });
+      }}
     >
       Schedule a Call →
-    </ButtonLink>
+    </Button>
   );
 }

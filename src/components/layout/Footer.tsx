@@ -2,13 +2,13 @@ import Link from "next/link";
 import { ContactLinks } from "@/components/layout/ContactLinks";
 import { Logo } from "@/components/brand/Logo";
 import { Container } from "@/components/ui/Container";
-import { experiences } from "@/content/experiences";
-import { lodges } from "@/content/lodges";
+import { experiences, getExperience, lodgesForExperience } from "@/content/index";
 import { mainNav, siteConfig } from "@/data/site";
 
 export function Footer() {
   const year = new Date().getFullYear();
-  const doveLodges = lodges.filter((l) => l.category === "Dove hunting");
+  const doveExperience = getExperience("dove-hunting-cordoba");
+  const doveLodges = doveExperience ? lodgesForExperience(doveExperience) : [];
 
   return (
     <footer className="bg-ink text-paper">
@@ -71,9 +71,19 @@ export function Footer() {
           </div>
         </div>
 
-        <p className="mt-8 text-xs text-paper/45">
-          © {year} {siteConfig.name}. All rights reserved.
-        </p>
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-4 text-xs text-paper/45">
+          <p>
+            © {year} {siteConfig.name}. All rights reserved.
+          </p>
+          <div className="flex gap-4">
+            <Link href="/privacy" className="hover:text-paper/70">
+              Privacy
+            </Link>
+            <Link href="/terms" className="hover:text-paper/70">
+              Terms
+            </Link>
+          </div>
+        </div>
       </Container>
     </footer>
   );

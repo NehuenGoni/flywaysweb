@@ -26,14 +26,38 @@ export function ProseFeature({
         {section.eyebrow && <Eyebrow>{section.eyebrow}</Eyebrow>}
         <h2 className="font-display mt-3 text-3xl sm:text-4xl">{section.heading}</h2>
         <Prose paragraphs={section.body} className="mt-5" />
+        {section.bullets && section.bullets.length > 0 && (
+          <ul className="mt-5 grid gap-2 sm:grid-cols-2">
+            {section.bullets.map((b) => (
+              <li key={b} className="flex gap-2 text-sm text-current/80">
+                <span aria-hidden className="text-olive">
+                  ✓
+                </span>
+                {b}
+              </li>
+            ))}
+          </ul>
+        )}
+        {section.note && (
+          <p className="mt-4 text-sm italic text-current/55">{section.note}</p>
+        )}
       </Reveal>
       <Reveal delay={0.1} className={cn(reverse && "lg:order-1")}>
-        <Placeholder
-          tone={mediaTone}
-          icon={mediaIcon}
-          label={mediaLabel}
-          className="aspect-[4/5] w-full"
-        />
+        {section.image ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={section.image.src}
+            alt={section.image.alt}
+            className="aspect-[4/5] w-full rounded-2xl object-cover"
+          />
+        ) : (
+          <Placeholder
+            tone={mediaTone}
+            icon={mediaIcon}
+            label={mediaLabel}
+            className="aspect-[4/5] w-full"
+          />
+        )}
       </Reveal>
     </div>
   );

@@ -3,7 +3,6 @@ import { PageHero } from "@/components/ui/PageHero";
 import { Section, Eyebrow } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { Prose } from "@/components/ui/Prose";
-import { WhyFlyways } from "@/components/home/WhyFlyways";
 import { Testimonials } from "@/components/home/Testimonials";
 import { CtaBand } from "@/components/sections/CtaBand";
 
@@ -24,28 +23,22 @@ export default function WhyFlywaysPage() {
       />
 
       <Section tone="paper">
-        <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-          <Reveal>
-            <Eyebrow>Owner-run, since day one</Eyebrow>
-            <h2 className="font-display mt-3 text-3xl sm:text-4xl">
-              Not managed from a distance — run
-            </h2>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <Prose
-              size="lg"
-              paragraphs={[
-                "Flyways has operated in the fields of Córdoba for over two decades. Every season, every field rotation, every detail of how a day unfolds is handled by the people who own the company — and who are there when you arrive.",
-                "That's the difference between a company that sells a hunt and one that has spent twenty years perfecting it. The bigger operators can match our scale. They can't put the owner in the field next to you.",
-                "When you book with Flyways, you're not filling out a form into a system. You're starting a conversation with people who will remember you when you come back.",
-              ]}
-            />
-          </Reveal>
-        </div>
+        <Reveal>
+          <Eyebrow>About Us</Eyebrow>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <Prose
+            size="lg"
+            className="mt-4 max-w-3xl"
+            paragraphs={[
+              "It all began with dove hunting in the legendary fields of Córdoba, where FlyWays built its reputation season after season. Today, that same standard extends across Argentina's finest hunting and fishing destinations, with strategically located lodges and carefully selected hunting grounds that maximize time in the field and minimize time on the road.",
+              "A team built over two decades, present at every experience, close enough to know that no two hunters are the same, and no two itineraries should be either. Attention to detail, logistics, daily pace, meals, non-hunting days — all built around our guests.",
+              "That standard has earned FlyWays its place: Orvis Endorsed, Beretta certified, and a repeat rate that speaks louder than either. It's also why the hunt is only part of the story. Horseback riding and polo, wine tastings, cooking classes, spa days, evenings with tango under the open sky — Argentina has as much to offer off the field as on it, and FlyWays brings all of it together with the same attention to detail.",
+              "This is more than a hunting trip. It's a once-in-a-lifetime experience. One you'll want to repeat, every year.",
+            ]}
+          />
+        </Reveal>
       </Section>
-
-      {/* Reuse the four-pillar credentials block */}
-      <WhyFlyways />
 
       {/* Team — placeholder until bios/photos are supplied */}
       <Section tone="paper">

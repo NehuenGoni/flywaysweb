@@ -1,10 +1,11 @@
 import type { Experience } from "./types";
+import { programs } from "./programs";
+import { discoverCordoba, patagoniaActivities, tulipExperience, sideTrips } from "./activities";
 
 /**
- * Experiences are the entry point of the site and the core of SEO.
- * `dove-hunting-cordoba` uses the client's final copy. The other three
- * carry structurally complete, honest placeholder copy (status: "placeholder")
- * pending the client's final text and assets.
+ * Experiences are the entry point of the site and the core of SEO. Each
+ * experience owns its `offering` — which lodges, programs or activities it
+ * surfaces, and in what order (see ExperienceOffering in ./types).
  */
 export const experiences: Experience[] = [
   {
@@ -26,101 +27,35 @@ export const experiences: Experience[] = [
       "Flyways has been operating in these fields for over two decades. Not managing from a distance — running it. Every season, every field rotation, every detail of how a day unfolds. That's the difference between a company that sells a hunt and one that has spent twenty years perfecting it.",
       "This is also, it turns out, a remarkable place to simply be. The landscape, the food, the unhurried pace of an Argentine afternoon by the pool — it works on hunters and non-hunters alike. Bring your partner. The lodge takes care of everything.",
     ],
-    field: {
-      eyebrow: "The experience in the field",
-      heading: "What a day looks like",
-      body: [
-        "You'll hunt twice a day — morning and afternoon sessions, each in a different field. Your guide positions you, the birds come, and the rest is up to you. Beginners find their rhythm fast. Experienced shooters find shots here that they won't find anywhere else: high crossers at 45 to 50 yards that demand real skill and reward it.",
-        "The fields around our lodges are managed year-round — food plots, pond placement, habitat work that keeps birds in the area season after season. When conditions anywhere else in the province slow down, Flyways fields don't.",
-      ],
+    offering: {
+      kind: "lodges",
+      lodgeSlugs: ["los-chanares", "posta-del-norte"],
     },
-    seasons: {
-      heading: "When to come",
-      intro:
-        "Córdoba dove hunting runs all year. The two seasons hunt differently, and both are exceptional.",
-      rows: [
-        {
-          name: "Summer Season",
-          window: "January – March",
-          description:
-            "Sunflower fields in full bloom, high bird activity, warmer afternoons. The visual is extraordinary.",
-        },
-        {
-          name: "Regular Season",
-          window: "April – December",
-          description:
-            "Roost hunting across the vast eastern farmlands. Cooler, consistent, and what most of our returning clients call their favorite.",
-        },
-      ],
-      note: "Weather note: rain almost never affects shooting. On average, fewer than 10 days per year see any field impact — and most rain falls at night.",
-    },
-    whyFlyways: {
-      eyebrow: "Credentials",
-      heading: "Why Flyways",
-      body: [
-        "Orvis Endorsed. Beretta Lodge certified. Two recognitions that aren't given — they're earned through consistent standards in the field, at the table, and in every interaction with guests. Very few operators in Argentina hold both.",
-        "When you book with Flyways, you're not filling out a form into a system. You're starting a conversation with people who will be there when you arrive — and who'll remember you when you come back.",
-      ],
-    },
-    lodgeSlugs: ["los-chanares", "posta-del-norte"],
   },
   {
     slug: "mixed-bag",
-    status: "placeholder",
+    status: "complete",
     navLabel: "Mixed Bag",
     title: "Argentina Mixed Bag",
     metaTitle: "Argentina Mixed Bag Hunting | FlyWays",
     metaDescription:
-      "Combine doves, ducks, pigeon and perdiz on a single Argentina wingshooting trip with FlyWays — twenty years of owner-run operation, Orvis Endorsed and Beretta certified.",
+      "Combine duck, pigeon, perdiz and dove on a single Argentina wingshooting trip with FlyWays — twenty years of owner-run operation, Orvis Endorsed and Beretta certified.",
     icon: "feather",
     heroHeadline: "Argentina Mixed Bag",
     heroSubhead: "More than one quarry. One unforgettable week in the field.",
     cardSummary:
-      "Doves, ducks, pigeon and perdiz in a single trip — the most varied wingshooting Argentina has to offer.",
+      "Duck, pigeon, perdiz and dove across two Buenos Aires estancias — the most varied wingshooting Argentina has to offer.",
     intro: [
-      "A mixed bag trip is for the hunter who wants range — different birds, different fields, different ways of shooting, all inside one Argentine week. Doves in the morning, decoying ducks at dawn, pigeon over decoys, perdiz behind pointing dogs.",
-      "This page is being finalized with the FlyWays team. The structure and offering are in place; the detailed copy and photography are on the way. In the meantime, the fastest way to plan a mixed bag week is to book a call with us.",
+      "A mixed bag trip is for the hunter who wants range — different birds, different fields, different ways of shooting, all inside one Argentine week. Doves and pigeon over decoys, decoying ducks at dawn, perdiz behind pointing dogs.",
     ],
-    field: {
-      eyebrow: "The experience in the field",
-      heading: "What a mixed bag week looks like",
-      body: [
-        "Each day is built around the birds that are flying best, scouted in advance and matched to the season. Your itinerary is shaped with you before you arrive, balancing volume dove shooting with the slower, more deliberate pursuit of ducks and perdiz.",
-        "Full day-by-day detail is in development. Reach out and we'll walk you through a sample itinerary for your dates.",
-      ],
+    offering: {
+      kind: "lodges",
+      lodgeSlugs: ["estancia-del-monte", "estancia-santa-rita"],
     },
-    lodgeSlugs: ["los-chanares", "posta-del-norte"],
-  },
-  {
-    slug: "fly-fishing-patagonia",
-    status: "placeholder",
-    navLabel: "Fly Fishing",
-    title: "Patagonia Fly Fishing",
-    metaTitle: "Patagonia Fly Fishing in Argentina | FlyWays",
-    metaDescription:
-      "Fly fishing for wild trout in Argentine Patagonia with FlyWays — rivers, lakes and spring creeks, guided by the same standard of service that defines our hunting operation.",
-    icon: "fish",
-    heroHeadline: "Patagonia Fly Fishing",
-    heroSubhead: "Wild trout, clear water, and the far south of Argentina.",
-    cardSummary:
-      "Rivers, lakes and spring creeks across Argentine Patagonia — wild trout and unspoiled water.",
-    intro: [
-      "Argentine Patagonia is one of the great trout destinations on earth: freestone rivers, glacial lakes and spring creeks set against the Andes, with wild fish and very few anglers. It's the aspirational counterpart to our wingshooting — a different landscape, the same standard of service.",
-      "This page is being developed with the FlyWays team. The lodges and waters are being finalized; detailed copy and photography are on the way. To plan a Patagonia trip now, book a call with us.",
-    ],
-    field: {
-      eyebrow: "On the water",
-      heading: "What the fishing looks like",
-      body: [
-        "Days are built around the water that's fishing best for your dates and ability — wade or float, dries or streamers, with experienced local guides who know each beat.",
-        "Full detail by lodge and river is in development. Reach out and we'll match you to the right water and week.",
-      ],
-    },
-    lodgeSlugs: ["la-caridad", "tecka", "el-dorado"],
   },
   {
     slug: "big-game",
-    status: "placeholder",
+    status: "complete",
     navLabel: "Big Game",
     title: "Argentina Big Game",
     metaTitle: "Argentina Big Game Hunting | FlyWays",
@@ -130,20 +65,150 @@ export const experiences: Experience[] = [
     heroHeadline: "Argentina Big Game",
     heroSubhead: "Red stag, buffalo, and the wild country of Argentina.",
     cardSummary:
-      "Red stag, water buffalo and more across Argentina's wild country — organized to the FlyWays standard.",
+      "Red stag, water buffalo and more across Córdoba's mountains and valleys — organized to the FlyWays standard.",
     intro: [
-      "Argentina offers some of the most accessible world-class big game in the Southern Hemisphere — red stag during the roar, water buffalo, blackbuck and boar — across free-range and estate settings.",
-      "This page is being developed with the FlyWays team. Species, areas and seasons are being finalized; detailed copy and photography are on the way. To plan a big game hunt now, book a call with us.",
+      "Argentina offers some of the most accessible world-class big game in the Southern Hemisphere — red stag during the roar, water buffalo, blackbuck and boar — across free-range and estate settings in the Córdoba hills.",
     ],
-    field: {
-      eyebrow: "In the field",
-      heading: "What a big game hunt looks like",
-      body: [
-        "Hunts are organized around the species and season you're after, with experienced guides and accommodations chosen to match the area.",
-        "Full detail by species and area is in development. Reach out and we'll build the right hunt for your dates.",
-      ],
+    // TODO(client): the document also lists "La Pampa, Patagonia" under Big
+    // Game with a note about needing photos, but no property name or copy.
+    // Not modeled as a Lodge yet — confirm whether this is a third lodge or
+    // a region to fold into the copy above before adding it.
+    offering: {
+      kind: "lodges",
+      lodgeSlugs: ["mountain-lodge"],
     },
-    lodgeSlugs: [],
+  },
+  {
+    slug: "fly-fishing-patagonia",
+    status: "complete",
+    navLabel: "Fly Fishing",
+    title: "Patagonia Fly Fishing",
+    metaTitle: "Patagonia Fly Fishing in Argentina | FlyWays",
+    metaDescription:
+      "Fly fishing for wild trout in Argentine Patagonia with FlyWays — two guided programs across rivers, lakes and spring creeks, and the same standard of service that defines our hunting operation.",
+    icon: "fish",
+    heroHeadline: "Patagonia Fly Fishing",
+    heroSubhead: "Wild trout, clear water, and the far south of Argentina.",
+    cardSummary:
+      "Two guided programs across Argentine Patagonia's rivers, lakes and spring creeks — wild trout and unspoiled water.",
+    intro: [
+      "Argentine Patagonia is one of the great trout destinations on earth: freestone rivers, glacial lakes and spring creeks set against the Andes, with wild fish and very few anglers. It's the aspirational counterpart to our wingshooting — a different landscape, the same standard of service.",
+    ],
+    offering: {
+      kind: "programs",
+      intro:
+        "Two ways to fish Patagonia with FlyWays: a lodge-based program moving between Los Alerces National Park and Trevelín, or a mobile, glamping-style journey following the water.",
+      programs,
+      zones: {
+        heading: "Where We Fish",
+        zones: [
+          {
+            name: "Northern Area — Cholila and Los Alerces National Park",
+            waters: [
+              { name: "Río Carrileufú", methods: ["Float"], note: "2 sections" },
+              { name: "Río Rivadavia", methods: ["Float"] },
+              { name: "Lago Verde", methods: ["Float"] },
+              { name: "Río Arrayanes", methods: ["Float"] },
+              { name: "Lago Futalaufquen", methods: ["Motorboat"] },
+              { name: "Lago Krugger", methods: ["Motorboat"] },
+              { name: "Río Frey", methods: ["Float"] },
+            ],
+          },
+          {
+            name: "Central Area — Trevelín-Corcovado",
+            waters: [
+              { name: "Amutuy Quimei Lake", methods: ["Motorboat"] },
+              { name: "Frey River", methods: ["Motorboat"] },
+              { name: "Río Grande", methods: ["Float"], note: "3 sections" },
+              { name: "Nant y Fall Stream", methods: ["Wade"] },
+              { name: "Laguna Larga", methods: ["Float"] },
+              { name: "Río Corcovado", methods: ["Float", "Wade"], note: "2 sections" },
+              { name: "Lago Engaño", methods: ["Float"] },
+            ],
+          },
+          {
+            name: "Río Pico - Río Senguer Area",
+            waters: [
+              { name: "Río Pico", methods: ["Float", "Wade"], note: "2 sections" },
+              { name: "Río Pampas", methods: ["Wade"] },
+              { name: "Río Nilson", methods: ["Wade"] },
+              { name: "Spring Creeks", methods: ["Wade"] },
+              { name: "Lagos 1, 2, 3", methods: ["Float"] },
+              { name: "Río Senguer", methods: ["Wade", "Float"], note: "2 sections" },
+              { name: "Lago Fontana", methods: ["Float"] },
+            ],
+          },
+        ],
+      },
+      highlights: {
+        heading: "Truck and Camp Highlights",
+        groups: [
+          {
+            name: "Adventure & Fishing",
+            items: [
+              "Water-side camping locations",
+              "Different waters fished daily",
+              "Floating and wading fishing options",
+              "Fishing and camping on private property",
+              "Daily access to remote waters and diverse fishing styles in pristine settings",
+            ],
+          },
+          {
+            name: "Comfortable Camp Life",
+            items: [
+              "Double and single-roomed tents",
+              "Raised cot beds with mattress and blankets",
+              "Private outdoor bathroom",
+              "Hot water outdoor shower",
+              "Restful nights and fresh mornings, with all the essentials of comfort",
+            ],
+          },
+          {
+            name: "Mobility & Autonomy",
+            items: [
+              "4x4 Mercedes Benz expedition camper",
+              "Back-up 4x4 truck transportation",
+              "Rooftop solar panels for clean energy",
+              "Battery inverter with 220V AC power supply",
+              "Full independence, off-road capability, and sustainable energy anywhere",
+            ],
+          },
+          {
+            name: "Gastronomy & Hospitality",
+            items: [
+              "Fully equipped kitchen and bathroom trailer",
+              "Patagonian-style asados",
+              "Draft beer, spirits, and wine",
+              "Highly professional team",
+              "Attention to detail",
+            ],
+          },
+        ],
+      },
+    },
+  },
+  {
+    slug: "beyond-the-hunt",
+    status: "complete",
+    navLabel: "Beyond the Hunt",
+    title: "Beyond the Hunt",
+    metaTitle: "Beyond the Hunt in Argentina | FlyWays",
+    metaDescription:
+      "Golf, polo, wine, horseback riding and side trips beyond the field — how FlyWays rounds out a hunting or fishing trip to Argentina.",
+    icon: "feather",
+    heroHeadline: "Beyond the Hunt",
+    heroSubhead: "Argentina has as much to offer off the field as on it.",
+    cardSummary:
+      "Golf, polo, wine, horseback riding and side trips — everything FlyWays can build around your hunting or fishing trip.",
+    intro: [
+      "Discover the wonderful diversity of northern Córdoba and the charming city of Córdoba in Argentina, where nature and culture come together to offer you unforgettable experiences! In the north of Córdoba, immerse yourself in a natural paradise full of contrasts. The cultural wealth of northern Córdoba is reflected in its picturesque towns and its historical heritage. The city of Córdoba will surprise you with its unique combination of history, art and vibrant urban life, known for its colonial architecture and buildings such as the Jesuit Block, declared a World Heritage Site by UNESCO.",
+    ],
+    offering: {
+      kind: "activities",
+      groups: [discoverCordoba, patagoniaActivities],
+      features: [tulipExperience],
+      sideTrips,
+    },
   },
 ];
 

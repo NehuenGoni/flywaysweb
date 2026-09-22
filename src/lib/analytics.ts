@@ -1,5 +1,4 @@
 import { sendGTMEvent } from "@next/third-parties/google";
-import type { LodgeCategory } from "@/content/types";
 import type { ExperienceIconName } from "@/components/brand/icons";
 
 // Contrato de eventos que empujamos al dataLayer de GTM. Los nombres y
@@ -45,15 +44,11 @@ export function pageTypeFromPathname(pathname: string): PageType {
   return "Contact";
 }
 
-/** Categoría de lodge (Hunting salvo Fly fishing) → business_unit de marketing. */
-export function businessUnitForLodgeCategory(category: LodgeCategory): BusinessUnit {
-  return category === "Fly fishing" ? "Fishing" : "Hunting";
-}
-
 /**
- * Las experiencias no tienen `category` propia (Big Game no tiene lodges
- * asociados para inferirla); se deriva del ícono, que ya distingue pesca del
- * resto.
+ * Every experience (and its lodges) derives its business_unit from the
+ * experience's icon — the only case that isn't Hunting is fish. Beyond the
+ * Hunt is treated as Hunting so GA4 events don't fragment into a third
+ * business unit; confirm with marketing before this ships.
  */
 export function businessUnitForExperienceIcon(icon: ExperienceIconName): BusinessUnit {
   return icon === "fish" ? "Fishing" : "Hunting";
@@ -78,7 +73,7 @@ export function trackLead({
   experience,
 }: {
   formName?: string;
-  variant: "compact" | "full";
+  variant: "compact" | "full" | "newsletter";
   /** Ruta desde la que se envió el formulario (uso interno, no de la guía). */
   source: string;
   /** Si tildó el checkbox de newsletter al enviar. */
@@ -134,7 +129,9 @@ export function trackCtaClick({
 }
 
 /**
- * Clic en un ítem de submenú del navbar (Experiences / The Lodges).
+ * Clic en un ítem de submenú del navbar. `group` es "Experiences" para el
+ * clic en una experiencia, o el navLabel de la experiencia para el clic en
+ * uno de sus lodges anidados (ej. "Dove Hunting").
  * Propuesta propia (no está en la guía de marketing) — pendiente de validar,
  * igual que `click_cta`. Ver web/docs/analytics-events.md.
  */
@@ -148,7 +145,7 @@ export function trackNavClick({
 }: {
   /** navLabel de la experiencia o nombre del lodge clickeado. */
   item: string;
-  group: "Experiences" | "The Lodges";
+  group: string;
   placement: "header" | "mobile-nav";
   businessUnit?: BusinessUnit;
   experience?: string;

@@ -8,11 +8,13 @@ import { ButtonLink } from "@/components/ui/Button";
 import { ScheduleCallButton } from "@/components/ui/ScheduleCallButton";
 import { ProseFeature } from "@/components/sections/ProseFeature";
 import { RatesTable } from "@/components/lodge/RatesTable";
+import { WhenToComeTable } from "@/components/experience/WhenToComeTable";
 import { Recognition } from "@/components/lodge/Recognition";
+import { Endorsements } from "@/components/home/Endorsements";
 import { CtaBand } from "@/components/sections/CtaBand";
-import { lodgeSlugs, getLodge } from "@/content/lodges";
-import { getExperience } from "@/content/experiences";
-import { businessUnitForLodgeCategory } from "@/lib/analytics";
+import { lodgeSlugs, getLodge, experienceForLodge } from "@/content/index";
+import { businessUnitForExperienceIcon } from "@/lib/analytics";
+import { pageHeroTone, toneByIcon } from "@/lib/tone";
 
 export function generateStaticParams() {
   return lodgeSlugs.map((slug) => ({ slug }));
@@ -26,27 +28,17 @@ export async function generateMetadata({
   const { slug } = await params;
   const lodge = getLodge(slug);
   if (!lodge) return {};
-  const title = `${lodge.name} — ${lodge.category}`;
+  const experience = experienceForLodge(slug);
+  const title = experience ? `${lodge.name} — ${experience.navLabel}` : lodge.name;
   const description = `${lodge.name}: ${lodge.heroSubhead}`;
   return {
     title,
     description,
     alternates: { canonical: `/lodges/${lodge.slug}` },
     openGraph: { title, description, url: `/lodges/${lodge.slug}` },
+    ...(lodge.status === "placeholder" && { robots: { index: false, follow: true } }),
   };
 }
-
-const heroToneByCategory = {
-  "Dove hunting": "teal",
-  "Fly fishing": "ink",
-  "Big game": "olive",
-} as const;
-
-const iconByCategory = {
-  "Dove hunting": "dove",
-  "Fly fishing": "fish",
-  "Big game": "deer",
-} as const;
 
 export default async function LodgePage({
   params,
@@ -57,24 +49,28 @@ export default async function LodgePage({
   const lodge = getLodge(slug);
   if (!lodge) notFound();
 
-  const experience = getExperience(lodge.experienceSlug);
-  const mediaTone = heroToneByCategory[lodge.category];
-  const icon = iconByCategory[lodge.category];
-  const businessUnit = businessUnitForLodgeCategory(lodge.category);
+  const experience = experienceForLodge(slug);
+  const icon = experience?.icon ?? "dove";
+  const mediaTone = toneByIcon[icon];
+  const businessUnit = businessUnitForExperienceIcon(icon);
 
   return (
     <>
       <PageHero
-        eyebrow={lodge.category}
+        eyebrow={experience?.navLabel ?? "Lodge"}
         title={lodge.name}
         subhead={lodge.heroSubhead}
-        tone={heroToneByCategory[lodge.category]}
+        tone={pageHeroTone(icon)}
         icon={icon}
       >
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-paper/80">
           <span>{lodge.location}</span>
-          <span aria-hidden className="text-paper/30">·</span>
-          <span>{lodge.capacity}</span>
+          {lodge.capacity && (
+            <>
+              <span aria-hidden className="text-paper/30">·</span>
+              <span>{lodge.capacity}</span>
+            </>
+          )}
         </div>
         <div className="mt-6 flex flex-wrap gap-3">
           <ScheduleCallButton
@@ -97,6 +93,16 @@ export default async function LodgePage({
         </div>
       </PageHero>
 
+      {(lodge.slug === "los-chanares" || lodge.slug === "posta-del-norte") && (
+        <Endorsements
+          marks={[
+            { name: "Orvis Endorsed", src: "/logos/orvis.png" },
+            { name: "Beretta Trident", src: "/logos/beretta.png" },
+            { name: "Trip Advisor", src: "/logos/tripadvisor.png" },
+          ]}
+        />
+      )}
+
       {/* Intro */}
       <Section tone="paper">
         <Reveal>
@@ -104,44 +110,56 @@ export default async function LodgePage({
         </Reveal>
       </Section>
 
-      {/* The shooting / the fishing */}
-      <Section tone="paperDim">
-        <ProseFeature
-          section={lodge.shooting}
-          mediaTone={mediaTone}
-          mediaIcon={icon}
-          mediaLabel={lodge.name}
-        />
-      </Section>
+      {/* The Lodging / The Shooting|Hunting / The Service, in order, zig-zagging */}
+      {lodge.sections.map((section, i) => (
+        <Section key={section.heading} tone={i % 2 === 0 ? "paperDim" : "paper"}>
+          <ProseFeature
+            section={section}
+            mediaTone={mediaTone}
+            mediaIcon={icon}
+            mediaLabel={lodge.name}
+            reverse={i % 2 === 1}
+          />
+        </Section>
+      ))}
 
-      {/* The lodge — amenities */}
-      <Section tone="paper">
-        <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-          <Reveal>
-            <Eyebrow>The lodge</Eyebrow>
-            <h2 className="font-display mt-3 text-3xl sm:text-4xl">What to expect</h2>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <ul className="flex flex-wrap gap-2.5">
-              {lodge.amenities.map((a) => (
-                <li
-                  key={a}
-                  className="rounded-full border border-ink/12 bg-paper-dim px-4 py-2 text-sm text-ink/80"
-                >
-                  {a}
-                </li>
-              ))}
-            </ul>
-            {lodge.amenitiesNote && (
-              <Prose paragraphs={lodge.amenitiesNote} className="mt-6" />
-            )}
-          </Reveal>
-        </div>
-      </Section>
+      {/* Amenities */}
+      {lodge.amenities && lodge.amenities.length > 0 && (
+        <Section tone="paper">
+          <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+            <Reveal>
+              <Eyebrow>The lodge</Eyebrow>
+              <h2 className="font-display mt-3 text-3xl sm:text-4xl">What to expect</h2>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <ul className="flex flex-wrap gap-2.5">
+                {lodge.amenities.map((a) => (
+                  <li
+                    key={a}
+                    className="rounded-full border border-ink/12 bg-paper-dim px-4 py-2 text-sm text-ink/80"
+                  >
+                    {a}
+                  </li>
+                ))}
+              </ul>
+              {lodge.amenitiesNote && (
+                <Prose paragraphs={lodge.amenitiesNote} className="mt-6" />
+              )}
+            </Reveal>
+          </div>
+        </Section>
+      )}
+
+      {/* When to come */}
+      {lodge.whenToCome && (
+        <Section tone="paperDim">
+          <WhenToComeTable table={lodge.whenToCome} />
+        </Section>
+      )}
 
       {/* Recognition */}
-      {(lodge.recognition.orvis || lodge.recognition.beretta) && (
-        <Section tone="paperDim">
+      {lodge.recognition && (lodge.recognition.orvis || lodge.recognition.beretta) && (
+        <Section tone="paper">
           <Reveal>
             <Eyebrow>Recognition</Eyebrow>
             <h2 className="font-display mt-3 mb-8 text-3xl sm:text-4xl">
@@ -161,11 +179,14 @@ export default async function LodgePage({
             <Reveal>
               <Eyebrow className="text-sky">Pricing</Eyebrow>
               <h2 className="font-display mt-3 text-3xl sm:text-4xl">
-                Clear rates, published up front
+                {lodge.rates.kind === "published"
+                  ? "Clear rates, published up front"
+                  : "Rates built around your trip"}
               </h2>
               <p className="mt-5 max-w-sm text-paper/75">
-                No hidden numbers, no surprises. Here is exactly what a stay at{" "}
-                {lodge.name} costs.
+                {lodge.rates.kind === "published"
+                  ? `No hidden numbers, no surprises. Here is exactly what a stay at ${lodge.name} costs.`
+                  : `Group size, dates and program shape the rate at ${lodge.name}. Schedule a call for a personalized quote.`}
               </p>
             </Reveal>
             <Reveal delay={0.1}>

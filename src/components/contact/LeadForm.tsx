@@ -1,31 +1,36 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence, motion } from "motion/react";
 import { usePathname } from "next/navigation";
 import {
   leadCompactSchema,
   leadFullSchema,
+  leadNewsletterSchema,
+  experienceOfInterestOptions,
   type LeadCompactInput,
   type LeadFullInput,
+  type LeadNewsletterInput,
 } from "@/lib/lead";
 import { trackLead, type BusinessUnit } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { countries } from "@/data/countries";
+import { subdivisionsByCountry } from "@/data/subdivisions";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 type Tone = "light" | "dark";
 
 /**
- * The site-wide lead form, in two variants:
+ * The site-wide lead form, in three variants:
  *  - "compact": name, email, phone — lowest friction, for tight placements.
- *  - "full": the standard CRM-style form (contact details, trip context,
- *    consent) — used on contact/plan-your-trip and end-of-page CTAs.
+ *  - "full": the Schedule a Call form (contact details, trip context,
+ *    consent) — used in the Schedule a Call modal/page and end-of-page CTAs.
+ *  - "newsletter": the "Join the FlyWays Community" pop-up (First/Last/Email).
  *
- * Both post to the same /api/lead endpoint, tagged with their variant.
+ * All post to the same /api/lead endpoint, tagged with their variant.
  */
 export function LeadForm({
   tone = "light",
@@ -35,17 +40,17 @@ export function LeadForm({
   experience,
 }: {
   tone?: Tone;
-  variant?: "compact" | "full";
-  /** Tighter spacing/sizing — for the compact variant in a modal. */
+  variant?: "compact" | "full" | "newsletter";
+  /** Tighter spacing/sizing — for the compact/newsletter variants in a modal. */
   dense?: boolean;
   businessUnit?: BusinessUnit;
   experience?: string;
 }) {
-  return variant === "compact" ? (
-    <CompactForm tone={tone} dense={dense} businessUnit={businessUnit} experience={experience} />
-  ) : (
-    <FullForm tone={tone} businessUnit={businessUnit} experience={experience} />
-  );
+  if (variant === "newsletter") return <NewsletterForm tone={tone} dense={dense} />;
+  if (variant === "compact") {
+    return <CompactForm tone={tone} dense={dense} businessUnit={businessUnit} experience={experience} />;
+  }
+  return <FullForm tone={tone} businessUnit={businessUnit} experience={experience} />;
 }
 
 async function postLead(payload: unknown) {
@@ -91,7 +96,17 @@ function submitButtonCls(dark: boolean, dense = false) {
   );
 }
 
-function SuccessState({ dark, dense = false }: { dark: boolean; dense?: boolean }) {
+function SuccessState({
+  dark,
+  dense = false,
+  heading = "Thank you — message received.",
+  body = "A real person at FlyWays will be in touch shortly. No bots, no queues.",
+}: {
+  dark: boolean;
+  dense?: boolean;
+  heading?: string;
+  body?: string;
+}) {
   return (
     <motion.div
       key="success"
@@ -115,12 +130,8 @@ function SuccessState({ dark, dense = false }: { dark: boolean; dense?: boolean 
       >
         ✓
       </motion.span>
-      <h3 className={cn("font-display", dense ? "text-xl" : "text-2xl")}>
-        Thank you — message received.
-      </h3>
-      <p className={cn("text-sm", dark ? "text-paper/75" : "text-ink/70")}>
-        A real person at FlyWays will be in touch shortly. No bots, no queues.
-      </p>
+      <h3 className={cn("font-display", dense ? "text-xl" : "text-2xl")}>{heading}</h3>
+      <p className={cn("text-sm", dark ? "text-paper/75" : "text-ink/70")}>{body}</p>
     </motion.div>
   );
 }
@@ -263,6 +274,114 @@ function CompactForm({
   );
 }
 
+/* --------------------------------------------------------------- newsletter */
+
+/** "Join the FlyWays Community" — First/Last/Email, SUBSCRIBE. Top-of-funnel. */
+function NewsletterForm({ tone, dense = false }: { tone: Tone; dense?: boolean }) {
+  const pathname = usePathname();
+  const [submitted, setSubmitted] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setError,
+  } = useForm<LeadNewsletterInput>({
+    resolver: zodResolver(leadNewsletterSchema),
+    defaultValues: { variant: "newsletter" },
+  });
+
+  const { dark, labelCls, inputCls, errorCls } = toneClasses(tone, dense);
+
+  const onSubmit = async (data: LeadNewsletterInput) => {
+    try {
+      await postLead({ ...data, source: pathname });
+      setSubmitted(true);
+      trackLead({
+        source: pathname,
+        variant: "newsletter",
+        newsletterOptIn: true,
+      });
+    } catch {
+      setError("root", {
+        message: "Something went wrong. Please try again in a moment.",
+      });
+    }
+  };
+
+  return (
+    <div className="relative">
+      <AnimatePresence mode="wait">
+        {submitted ? (
+          <SuccessState
+            dark={dark}
+            dense={dense}
+            heading="You're in."
+            body="Watch your inbox for FlyWays deals, seasonal promotions and trip availability."
+          />
+        ) : (
+          <motion.form
+            key="form"
+            onSubmit={handleSubmit(onSubmit)}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+            className={cn("grid", dense ? "gap-3.5" : "gap-5")}
+            noValidate
+          >
+            <p className={cn("text-sm", dark ? "text-paper/75" : "text-ink/70")}>
+              Enter your email to stay in the loop.
+            </p>
+
+            <Field label="First Name" error={errors.firstName?.message} labelCls={labelCls} errorCls={errorCls}>
+              <input
+                type="text"
+                autoComplete="given-name"
+                className={inputCls}
+                {...register("firstName")}
+              />
+            </Field>
+
+            <Field label="Last Name" error={errors.lastName?.message} labelCls={labelCls} errorCls={errorCls}>
+              <input
+                type="text"
+                autoComplete="family-name"
+                className={inputCls}
+                {...register("lastName")}
+              />
+            </Field>
+
+            <Field label="Email" error={errors.email?.message} labelCls={labelCls} errorCls={errorCls}>
+              <input
+                type="email"
+                autoComplete="email"
+                placeholder="you@email.com"
+                className={inputCls}
+                {...register("email")}
+              />
+            </Field>
+
+            <div aria-hidden className="hidden">
+              <label>
+                Company
+                <input tabIndex={-1} autoComplete="off" {...register("company")} />
+              </label>
+            </div>
+
+            <div>
+              {errors.root && (
+                <p className={cn("mb-3 text-sm", errorCls)}>{errors.root.message}</p>
+              )}
+              <button type="submit" disabled={isSubmitting} className={submitButtonCls(dark, dense)}>
+                {isSubmitting ? "Sending…" : "SUBSCRIBE"}
+              </button>
+            </div>
+          </motion.form>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 /* -------------------------------------------------------------------- full */
 
 function FullForm({
@@ -279,14 +398,27 @@ function FullForm({
   const {
     register,
     handleSubmit,
+    control,
+    resetField,
     formState: { errors, isSubmitting },
     setError,
   } = useForm<LeadFullInput>({
     resolver: zodResolver(leadFullSchema),
-    defaultValues: { variant: "full", preferPhoneCall: false, subscribeNewsletter: true },
+    defaultValues: {
+      variant: "full",
+      preferPhoneCall: false,
+      subscribeNewsletter: true,
+      agreeContact: false,
+      ...(experience &&
+      (experienceOfInterestOptions as readonly string[]).includes(experience)
+        ? { experienceOfInterest: experience as LeadFullInput["experienceOfInterest"] }
+        : {}),
+    },
   });
 
   const { dark, labelCls, inputCls, errorCls, checkboxCls, checkboxLabelCls } = toneClasses(tone);
+  const selectedCountry = useWatch({ control, name: "country" });
+  const states = selectedCountry ? subdivisionsByCountry[selectedCountry] : undefined;
 
   const onSubmit = async (data: LeadFullInput) => {
     try {
@@ -363,16 +495,16 @@ function FullForm({
 
             <Field label="Country" error={errors.country?.message} labelCls={labelCls} errorCls={errorCls}>
               <select
-                autoComplete="country-name"
+                autoComplete="country"
                 defaultValue=""
                 className={cn(inputCls, "appearance-none")}
-                {...register("country")}
+                {...register("country", { onChange: () => resetField("state", { defaultValue: "" }) })}
               >
                 <option value="" disabled className="bg-paper text-ink">
                   Select a country
                 </option>
                 {countries.map((c) => (
-                  <option key={c.code} value={c.name} className="bg-paper text-ink">
+                  <option key={c.code} value={c.code} className="bg-paper text-ink">
                     {c.name}
                   </option>
                 ))}
@@ -380,43 +512,67 @@ function FullForm({
             </Field>
 
             <Field label="State / Province" error={errors.state?.message} labelCls={labelCls} errorCls={errorCls}>
-              <input
-                type="text"
-                autoComplete="address-level1"
-                placeholder="State/Province"
-                className={inputCls}
-                {...register("state")}
-              />
-            </Field>
-
-            <Field label="Tentative dates" error={errors.dates?.message} labelCls={labelCls} errorCls={errorCls}>
-              <input
-                type="text"
-                placeholder="e.g. October 2026"
-                className={inputCls}
-                {...register("dates")}
-              />
-            </Field>
-
-            <Field label="Party size" error={errors.party?.message} labelCls={labelCls} errorCls={errorCls}>
-              <input
-                type="text"
-                placeholder="e.g. 4 hunters"
-                className={inputCls}
-                {...register("party")}
-              />
+              {states ? (
+                <select
+                  autoComplete="address-level1"
+                  defaultValue=""
+                  className={cn(inputCls, "appearance-none")}
+                  {...register("state")}
+                >
+                  <option value="" disabled className="bg-paper text-ink">
+                    Select a State/Province
+                  </option>
+                  {states.map((s) => (
+                    <option key={s.code} value={s.code} className="bg-paper text-ink">
+                      {s.name}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  type="text"
+                  autoComplete="address-level1"
+                  placeholder="State/Province"
+                  className={inputCls}
+                  {...register("state")}
+                />
+              )}
             </Field>
 
             <div className="sm:col-span-2">
               <Field
-                label="Message (group size, approximate dates, lodge, etc.)"
+                label="Experience of Interest"
+                error={errors.experienceOfInterest?.message}
+                labelCls={labelCls}
+                errorCls={errorCls}
+              >
+                <select
+                  defaultValue=""
+                  className={cn(inputCls, "appearance-none")}
+                  {...register("experienceOfInterest")}
+                >
+                  <option value="" disabled className="bg-paper text-ink">
+                    Select an experience
+                  </option>
+                  {experienceOfInterestOptions.map((o) => (
+                    <option key={o} value={o} className="bg-paper text-ink">
+                      {o}
+                    </option>
+                  ))}
+                </select>
+              </Field>
+            </div>
+
+            <div className="sm:col-span-2">
+              <Field
+                label="Message / Tell us more"
                 error={errors.message?.message}
                 labelCls={labelCls}
                 errorCls={errorCls}
               >
                 <textarea
                   rows={3}
-                  placeholder="Questions, preferences, who's coming along…"
+                  placeholder="Group size, approximate dates, hunters vs. non-hunters, kids, experience you're interested in, etc."
                   className={cn(inputCls, "resize-none")}
                   {...register("message")}
                 />
@@ -443,13 +599,10 @@ function FullForm({
               <label className="flex items-start gap-2.5">
                 <input type="checkbox" className={checkboxCls} {...register("agreeContact")} />
                 <span className={checkboxLabelCls}>
-                  I agree to be contacted by FlyWays via email. To opt out, you can click the
+                  I agree to be contacted by FlyWays via Email. To opt out, you can click the
                   unsubscribe link in the emails.
                 </span>
               </label>
-              {errors.agreeContact && (
-                <p className={cn("text-xs", errorCls)}>{errors.agreeContact.message}</p>
-              )}
             </div>
 
             {/* Honeypot — visually hidden, not for humans */}
@@ -461,12 +614,27 @@ function FullForm({
             </div>
 
             <div className="sm:col-span-2">
+              <p className={cn("text-xs leading-relaxed", dark ? "text-paper/55" : "text-ink/50")}>
+                By submitting this form and signing up for text, you consent to receive text
+                messages from FlyWays. Consent is not a condition of purchase. Message frequency
+                varies. Message and data rates may apply. You can unsubscribe at any time by
+                replying STOP.
+              </p>
               {errors.root && (
-                <p className={cn("mb-3 text-sm", errorCls)}>{errors.root.message}</p>
+                <p className={cn("mt-3 text-sm", errorCls)}>{errors.root.message}</p>
               )}
-              <button type="submit" disabled={isSubmitting} className={submitButtonCls(dark)}>
-                {isSubmitting ? "Sending…" : "Send & get a reply →"}
+              <button type="submit" disabled={isSubmitting} className={cn(submitButtonCls(dark), "mt-4")}>
+                {isSubmitting ? "Sending…" : "SUBMIT"}
               </button>
+              <p className={cn("mt-3 text-xs", dark ? "text-paper/45" : "text-ink/40")}>
+                <a href="/privacy" className="underline hover:no-underline">
+                  Privacy
+                </a>
+                {" · "}
+                <a href="/terms" className="underline hover:no-underline">
+                  Terms
+                </a>
+              </p>
             </div>
           </motion.form>
         )}

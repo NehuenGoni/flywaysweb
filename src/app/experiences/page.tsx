@@ -22,7 +22,7 @@ export default function ExperiencesPage() {
         subhead="Most hunters arrive knowing the bird before they know the lodge. Start here — pick the experience, and we'll match you to the right place to stay."
       />
       <Section tone="paper">
-        <div className="grid gap-6 sm:grid-cols-2">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {experiences.map((experience, i) => (
             <Reveal key={experience.slug} delay={i * 0.06}>
               <ExperienceCard experience={experience} />

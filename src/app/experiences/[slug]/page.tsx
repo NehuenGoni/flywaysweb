@@ -6,13 +6,17 @@ import { Prose } from "@/components/ui/Prose";
 import { Reveal } from "@/components/ui/Reveal";
 import { ScheduleCallButton } from "@/components/ui/ScheduleCallButton";
 import { ProseFeature } from "@/components/sections/ProseFeature";
-import { SeasonTable } from "@/components/experience/SeasonTable";
+import { WhenToComeTable } from "@/components/experience/WhenToComeTable";
 import { ChooseYourLodge } from "@/components/experience/ChooseYourLodge";
+import { ProgramItinerary } from "@/components/experience/ProgramItinerary";
+import { FishingZones } from "@/components/experience/FishingZones";
+import { ActivityGrid, visibleActivities } from "@/components/experience/ActivityGrid";
+import { ListGroups } from "@/components/sections/ListGroups";
 import { ViewExperienceTracker } from "@/components/experience/ViewExperienceTracker";
 import { LeadSection } from "@/components/sections/LeadSection";
-import { experienceSlugs, getExperience } from "@/content/experiences";
-import { getLodges } from "@/content/lodges";
+import { experienceSlugs, getExperience, lodgesForExperience } from "@/content/index";
 import { businessUnitForExperienceIcon } from "@/lib/analytics";
+import { toneByIcon } from "@/lib/tone";
 
 export function generateStaticParams() {
   return experienceSlugs.map((slug) => ({ slug }));
@@ -35,6 +39,7 @@ export async function generateMetadata({
       description: experience.metaDescription,
       url: `/experiences/${experience.slug}`,
     },
+    ...(experience.status === "placeholder" && { robots: { index: false, follow: true } }),
   };
 }
 
@@ -47,10 +52,10 @@ export default async function ExperiencePage({
   const experience = getExperience(slug);
   if (!experience) notFound();
 
-  const lodges = getLodges(experience.lodgeSlugs);
-  const mediaTone =
-    experience.icon === "fish" ? "ink" : experience.icon === "deer" ? "bark" : "teal";
+  const mediaTone = toneByIcon[experience.icon];
   const businessUnit = businessUnitForExperienceIcon(experience.icon);
+  const lodges = lodgesForExperience(experience);
+  const offering = experience.offering;
 
   return (
     <>
@@ -79,19 +84,21 @@ export default async function ExperiencePage({
       </Section>
 
       {/* What a day looks like / on the water */}
-      <Section tone="paperDim">
-        <ProseFeature
-          section={experience.field}
-          mediaTone={mediaTone}
-          mediaIcon={experience.icon}
-          mediaLabel={experience.navLabel}
-        />
-      </Section>
+      {experience.field && (
+        <Section tone="paperDim">
+          <ProseFeature
+            section={experience.field}
+            mediaTone={mediaTone}
+            mediaIcon={experience.icon}
+            mediaLabel={experience.navLabel}
+          />
+        </Section>
+      )}
 
-      {/* Seasons */}
-      {experience.seasons && (
+      {/* When to come */}
+      {experience.whenToCome && (
         <Section tone="paper">
-          <SeasonTable seasons={experience.seasons} />
+          <WhenToComeTable table={experience.whenToCome} />
         </Section>
       )}
 
@@ -114,19 +121,83 @@ export default async function ExperiencePage({
         </Section>
       )}
 
-      {/* Choose your lodge */}
-      {lodges.length > 0 && (
+      {/* Offering: lodges, programs, or activities */}
+      {offering.kind === "lodges" && lodges.length > 0 && (
         <Section tone="paper">
           <ChooseYourLodge
             lodges={lodges}
-            title={lodges.length === 2 ? "Two lodges. One standard." : "Choose your lodge"}
-            intro={
-              experience.slug === "dove-hunting-cordoba"
-                ? "Both Flyways dove hunting lodges operate to the same level of service, food, and field quality. The choice comes down to group size, setting, and what kind of experience you're after."
-                : undefined
-            }
+            title={offering.heading ?? (lodges.length === 2 ? "Two lodges. One standard." : "Choose your lodge")}
+            intro={offering.intro}
           />
         </Section>
+      )}
+
+      {offering.kind === "programs" && (
+        <>
+          {offering.programs.length > 0 && (
+            <Section tone="paper">
+              {offering.intro && (
+                <Reveal>
+                  <Prose paragraphs={[offering.intro]} size="lg" className="max-w-3xl" />
+                </Reveal>
+              )}
+              <div className="mt-10 grid gap-14 lg:grid-cols-2">
+                {offering.programs.map((program) => (
+                  <ProgramItinerary key={program.slug} program={program} />
+                ))}
+              </div>
+            </Section>
+          )}
+          {offering.zones && (
+            <Section tone="paperDim">
+              <FishingZones block={offering.zones} />
+            </Section>
+          )}
+          {offering.highlights && (
+            <Section tone="paper">
+              <ListGroups block={offering.highlights} />
+            </Section>
+          )}
+        </>
+      )}
+
+      {offering.kind === "activities" && (
+        <>
+          {offering.groups
+            .filter((group) => visibleActivities(group).length > 0)
+            .map((group, i) => (
+              <Section key={group.heading} tone={i % 2 === 0 ? "paper" : "paperDim"}>
+                <ActivityGrid group={group} />
+              </Section>
+            ))}
+          {offering.features?.map((feature, i) => (
+            <Section key={feature.heading} tone={i % 2 === 0 ? "teal" : "paper"}>
+              <div className="mx-auto max-w-3xl text-center">
+                <ProseFeature section={feature} mediaTone={mediaTone} mediaIcon={experience.icon} />
+              </div>
+            </Section>
+          ))}
+          {offering.sideTrips && (
+            <Section tone="paperDim">
+              <div className="max-w-2xl">
+                <h2 className="font-display text-3xl sm:text-4xl">{offering.sideTrips.heading}</h2>
+                {offering.sideTrips.intro && (
+                  <p className="mt-4 text-lg leading-relaxed text-ink/75">{offering.sideTrips.intro}</p>
+                )}
+                <ul className="mt-6 flex flex-wrap gap-2.5">
+                  {offering.sideTrips.destinations.map((d) => (
+                    <li
+                      key={d}
+                      className="rounded-full border border-ink/12 bg-paper px-4 py-2 text-sm text-ink/80"
+                    >
+                      {d}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Section>
+          )}
+        </>
       )}
 
       {/* Lead form */}

@@ -35,10 +35,6 @@ export default function ContactPage() {
                 Pick a time that works for you. We&apos;ll talk through dates,
                 experience and lodge — no obligation.
               </p>
-              {/*
-                TODO(client): swap this button for an inline Calendly embed once
-                the real scheduling URL is provided (see siteConfig.bookingUrl).
-              */}
               <ScheduleCallButton placement="page" variant="primary" size="lg" className="mt-6" />
             </div>
 
