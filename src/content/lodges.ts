@@ -10,7 +10,7 @@ export const lodges: Lodge[] = [
   {
     slug: "los-chanares",
     status: "complete",
-    name: "Los Chañares",
+    name: "Estancia Los Chañares",
     location: "Northern Córdoba",
     species: ["Dove"],
     capacity: "9 bedrooms · Up to 10 hunters",
@@ -18,7 +18,7 @@ export const lodges: Lodge[] = [
     cardSummary:
       "The flagship. Nine rooms in the rolling hills of northern Córdoba — the reference point for premium dove hunting in Argentina for over twenty years.",
     intro: [
-      "Since its founding in 2000, Los Chañares has stood as the place to shoot doves in the world. It was the first international venue to affiliate with Beretta — a distinction earned, not given. In 2015, Orvis endorsed the lodge, a name that opens doors across the world of wingshooting. And on Trip Advisor, where reputations are made by hunters themselves, Los Chañares has stayed among the very best, year after year.",
+      "Since its founding in 2000, Estancia Los Chañares has stood as the place to shoot doves in the world. It was the first international venue to affiliate with Beretta — a distinction earned, not given. In 2015, Orvis endorsed the lodge, a name that opens doors across the world of wingshooting. And on Trip Advisor, where reputations are made by hunters themselves, Estancia Los Chañares has stayed among the very best, year after year.",
     ],
     sections: [
       {
@@ -38,7 +38,7 @@ export const lodges: Lodge[] = [
       {
         heading: "The Shooting",
         body: [
-          "Los Chañares is located west of northern Córdoba, among rolling hills. Around the lodge, sunflower fields bloom in summer and wheat in winter — with ponds and corn placed carefully in the surrounding fields to keep the birds close. Throughout the seasons, we also hunt the vast eastern farmlands, where millions of doves feed and roost year-round. Our hunts offer real range: low and slow birds for beginners, and 45-to-50-yard driven and crossing shots for the more avid wingshooters.",
+          "Estancia Los Chañares is located west of northern Córdoba, among rolling hills. Around the lodge, sunflower fields bloom in summer and wheat in winter — with ponds and corn placed carefully in the surrounding fields to keep the birds close. Throughout the seasons, we also hunt the vast eastern farmlands, where millions of doves feed and roost year-round. Our hunts offer real range: low and slow birds for beginners, and 45-to-50-yard driven and crossing shots for the more avid wingshooters.",
         ],
       },
       {

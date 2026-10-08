@@ -8,6 +8,10 @@ import { Reveal } from "@/components/ui/Reveal";
 import { Prose } from "@/components/ui/Prose";
 import { LeadSection } from "@/components/sections/LeadSection";
 
+// The stats strip depends on today's date; re-render hourly so the counter
+// advances without a redeploy.
+export const revalidate = 3600;
+
 export default function HomePage() {
   return (
     <>

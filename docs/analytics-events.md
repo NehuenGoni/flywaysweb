@@ -49,7 +49,7 @@ GA4. No crear un tag de pageview manual para evitar duplicados.
 | `newsletter_opt_in` | `true` \| `false` — boolean, checkbox pre-tildado por defecto en compact/full; siempre `true` en el form de newsletter |
 | `cta_name`       | `Schedule a Call` · `Email Us` · `Call Us` · `WhatsApp`                                    |
 | `nav_group`      | `Experiences` (clic en experiencia) · `navLabel` de la experiencia padre (clic en uno de sus lodges anidados, ej. `Dove Hunting`) |
-| `nav_item`       | `navLabel` de cada experiencia · nombre del lodge (ej. `Los Chañares`)                      |
+| `nav_item`       | `navLabel` de cada experiencia · nombre del lodge (ej. `Estancia Los Chañares`)                      |
 
 **Nota sobre `Beyond the Hunt`**: no es caza ni pesca — se decidió tratarla
 como `business_unit: "Hunting"` para no fragmentar los eventos de GA4 en una

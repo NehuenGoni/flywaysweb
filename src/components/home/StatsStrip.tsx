@@ -2,19 +2,17 @@ import { Container } from "@/components/ui/Container";
 import { Counter } from "@/components/ui/Counter";
 import { Reveal } from "@/components/ui/Reveal";
 import { experiences } from "@/content/index";
-
-// TODO(client): the document leaves the province count "a confirmar".
-const stats = [
-  { value: "20", label: "Years" },
-  { value: String(experiences.length), label: "Experiences" },
-  { value: "4", label: "Provinces" }, // TODO(client): confirm province count
-  // TODO(client): placeholder figure — swap for the real count of guests
-  // hosted once the client confirms one, so it stays a credible number
-  // rather than an arbitrary one.
-  { counter: 1850, suffix: "+", label: "Happy Clients" },
-] as const;
+import { getHappyClients, getYearsActive } from "@/lib/stats";
 
 export function StatsStrip() {
+  // TODO(client): the document leaves the province count "a confirmar".
+  const stats = [
+    { value: `${getYearsActive()}+`, label: "Years" },
+    { value: String(experiences.length), label: "Experiences" },
+    { value: "4", label: "Provinces" }, // TODO(client): confirm province count
+    { counter: getHappyClients(), suffix: "+", label: "Happy Clients" },
+  ] as const;
+
   return (
     <div className="relative bg-ink">
       <Container className="py-10">

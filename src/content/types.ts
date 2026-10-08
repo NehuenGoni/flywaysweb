@@ -89,7 +89,7 @@ interface RatesBase {
   occupancyNote?: string;
 }
 
-/** A published price table (today: only Los Chañares). */
+/** A published price table (today: only Estancia Los Chañares). */
 export interface PublishedRates extends RatesBase {
   kind: "published";
   rows: RateRow[];

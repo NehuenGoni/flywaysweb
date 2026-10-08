@@ -4,18 +4,16 @@ import { motion } from "motion/react";
 import { Container } from "@/components/ui/Container";
 import { ButtonLink } from "@/components/ui/Button";
 import { ScheduleCallButton } from "@/components/ui/ScheduleCallButton";
+import { HeroVideo } from "./HeroVideo";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 export function Hero() {
   return (
     <section className="relative isolate flex min-h-[92vh] items-center overflow-hidden bg-ink text-paper">
-      {/*
-        TODO(client): drop the hero film here as a muted, looping <video>
-        (poster + autoPlay muted loop playsInline). The gradient below is the
-        intentional fallback until footage is supplied.
-      */}
+      {/* The gradient sits behind the poster/film and tints them. */}
       <div className="absolute inset-0 -z-10 bg-gradient-to-br from-black via-teal-700 to-teal" />
+      <HeroVideo />
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(120%_90%_at_70%_-10%,rgba(134,190,205,0.18),transparent_55%)]" />
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(100%_100%_at_50%_120%,rgba(0,0,0,0.6),transparent_55%)]" />
 
