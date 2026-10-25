@@ -35,6 +35,16 @@ function generateRedirects(): Redirect[] {
 }
 
 const nextConfig: NextConfig = {
+  images: {
+    // Fotos de experiencias/lodges alojadas en Vercel Blob (store flyways-media).
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "pm7wtjb3rusbf6oi.public.blob.vercel-storage.com",
+        pathname: "/experiences/**",
+      },
+    ],
+  },
   async redirects() {
     return generateRedirects();
   },

@@ -43,10 +43,6 @@ export default function HomePage() {
                 Choose your experience
               </h2>
             </div>
-            <p className="max-w-sm text-ink/70">
-              Most hunters arrive knowing the bird before the lodge. Pick the
-              experience — we&apos;ll match you to the right place to stay.
-            </p>
           </div>
         </Reveal>
 

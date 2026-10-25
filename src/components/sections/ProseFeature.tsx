@@ -1,9 +1,11 @@
+import Image from "next/image";
 import type { ProseSection } from "@/content/types";
 import type { ExperienceIconName } from "@/components/brand/icons";
 import { Eyebrow } from "@/components/ui/Section";
 import { Prose } from "@/components/ui/Prose";
 import { Reveal } from "@/components/ui/Reveal";
 import { Placeholder } from "@/components/media/Placeholder";
+import { PhotoCarousel } from "@/components/media/PhotoCarousel";
 import { cn } from "@/lib/utils";
 
 /** A prose section paired with an editorial media panel. */
@@ -43,11 +45,15 @@ export function ProseFeature({
         )}
       </Reveal>
       <Reveal delay={0.1} className={cn(reverse && "lg:order-1")}>
-        {section.image ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+        {section.images && section.images.length > 1 ? (
+          <PhotoCarousel photos={section.images} label={section.heading} />
+        ) : section.image ? (
+          <Image
             src={section.image.src}
             alt={section.image.alt}
+            width={section.image.width ?? 1200}
+            height={section.image.height ?? 1500}
+            sizes="(min-width: 1024px) 50vw, 100vw"
             className="aspect-[4/5] w-full rounded-2xl object-cover"
           />
         ) : (

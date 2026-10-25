@@ -1,4 +1,5 @@
 import type { Program } from "./types";
+import { withProgramMedia } from "./media";
 
 /**
  * Fly-fishing programs, rendered inline on /experiences/fly-fishing-patagonia
@@ -7,7 +8,7 @@ import type { Program } from "./types";
  * route yet — the slug is kept so a dedicated page can be opened later
  * without migrating data.
  */
-export const programs: Program[] = [
+const programData: Program[] = [
   {
     slug: "echoes-of-patagonia",
     status: "complete",
@@ -78,6 +79,8 @@ export const programs: Program[] = [
     ],
   },
 ];
+
+export const programs: Program[] = programData.map(withProgramMedia);
 
 export function getProgram(slug: string): Program | undefined {
   return programs.find((p) => p.slug === slug);

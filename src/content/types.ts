@@ -21,6 +21,8 @@ export interface ProseSection {
   /** Short caveat rendered under the section. */
   note?: string;
   image?: MediaRef;
+  /** Más de una foto: se muestra como carrusel (tiene prioridad sobre `image`). */
+  images?: MediaRef[];
 }
 
 /** A titled group of bullet lists (e.g. "Truck and Camp Highlights"). */
@@ -157,6 +159,7 @@ export interface Program {
   notIncluded?: string[];
   rates?: Rates;
   hero?: MediaRef;
+  gallery?: MediaRef[];
 }
 
 export type FishingMethod = "Float" | "Wade" | "Motorboat";

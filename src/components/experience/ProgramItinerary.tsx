@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { Program } from "@/content/types";
 import { Eyebrow } from "@/components/ui/Section";
 import { Prose } from "@/components/ui/Prose";
@@ -6,6 +7,18 @@ import { Reveal } from "@/components/ui/Reveal";
 export function ProgramItinerary({ program }: { program: Program }) {
   return (
     <div id={program.slug}>
+      {program.hero && (
+        <Reveal>
+          <Image
+            src={program.hero.src}
+            alt={program.hero.alt}
+            width={program.hero.width ?? 1600}
+            height={program.hero.height ?? 900}
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            className="mb-6 aspect-[16/9] w-full rounded-2xl object-cover"
+          />
+        </Reveal>
+      )}
       <Reveal>
         <Eyebrow>{program.durationLabel}</Eyebrow>
         <h3 className="font-display mt-3 text-2xl sm:text-3xl">{program.name}</h3>

@@ -1,4 +1,5 @@
 import type { Experience } from "./types";
+import { withExperienceMedia } from "./media";
 import { programs } from "./programs";
 import { discoverCordoba, patagoniaActivities, tulipExperience, sideTrips } from "./activities";
 
@@ -7,7 +8,7 @@ import { discoverCordoba, patagoniaActivities, tulipExperience, sideTrips } from
  * experience owns its `offering` — which lodges, programs or activities it
  * surfaces, and in what order (see ExperienceOffering in ./types).
  */
-export const experiences: Experience[] = [
+const experienceData: Experience[] = [
   {
     slug: "dove-hunting-cordoba",
     status: "complete",
@@ -211,6 +212,8 @@ export const experiences: Experience[] = [
     },
   },
 ];
+
+export const experiences: Experience[] = experienceData.map(withExperienceMedia);
 
 export const experienceSlugs = experiences.map((e) => e.slug);
 

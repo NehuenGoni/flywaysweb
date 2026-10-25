@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Lodge } from "@/content/types";
 import { experienceForLodge } from "@/content/index";
@@ -15,12 +16,25 @@ export function LodgeCard({ lodge }: { lodge: Lodge }) {
       className="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:shadow-xl"
     >
       <div className="relative">
-        <Placeholder
-          tone={tone}
-          icon={icon}
-          rounded={false}
-          className="aspect-[4/3] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
-        />
+        {lodge.hero ? (
+          <div className="aspect-[4/3] overflow-hidden">
+            <Image
+              src={lodge.hero.src}
+              alt={lodge.hero.alt}
+              width={lodge.hero.width ?? 1600}
+              height={lodge.hero.height ?? 1200}
+              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+              className="h-full w-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
+            />
+          </div>
+        ) : (
+          <Placeholder
+            tone={tone}
+            icon={icon}
+            rounded={false}
+            className="aspect-[4/3] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
+          />
+        )}
         {experience && (
           <span className="absolute left-4 top-4 rounded-full bg-paper/90 px-3 py-1 text-xs font-medium uppercase tracking-wide text-ink">
             {experience.navLabel}

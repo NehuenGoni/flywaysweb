@@ -1,3 +1,5 @@
+import Image from "next/image";
+import type { MediaRef } from "@/content/types";
 import { Container } from "./Container";
 import { Eyebrow } from "./Section";
 import { Reveal } from "./Reveal";
@@ -19,6 +21,7 @@ export function PageHero({
   subhead,
   tone = "teal",
   icon,
+  image,
   children,
 }: {
   eyebrow?: string;
@@ -26,6 +29,8 @@ export function PageHero({
   subhead?: string;
   tone?: Tone;
   icon?: ExperienceIconName;
+  /** Foto de fondo; sin ella se mantiene el degradé de marca. */
+  image?: MediaRef;
   children?: React.ReactNode;
 }) {
   const Icon = icon ? experienceIcons[icon] : null;
@@ -36,8 +41,21 @@ export function PageHero({
         tones[tone],
       )}
     >
+      {image && (
+        <>
+          <Image
+            src={image.src}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="-z-10 object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/75" />
+        </>
+      )}
       <div className="absolute inset-0 bg-[radial-gradient(120%_80%_at_75%_0%,rgba(255,255,255,0.1),transparent_55%)]" />
-      {Icon && (
+      {Icon && !image && (
         <Icon className="pointer-events-none absolute -right-10 top-24 h-72 w-72 text-paper/[0.06]" />
       )}
       <Container className="relative">

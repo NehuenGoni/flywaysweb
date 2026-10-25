@@ -7,6 +7,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
 import { ScheduleCallButton } from "@/components/ui/ScheduleCallButton";
 import { ProseFeature } from "@/components/sections/ProseFeature";
+import { Gallery } from "@/components/media/Gallery";
 import { RatesTable } from "@/components/lodge/RatesTable";
 import { WhenToComeTable } from "@/components/experience/WhenToComeTable";
 import { Recognition } from "@/components/lodge/Recognition";
@@ -62,6 +63,7 @@ export default async function LodgePage({
         subhead={lodge.heroSubhead}
         tone={pageHeroTone(icon)}
         icon={icon}
+        image={lodge.hero}
       >
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-paper/80">
           <span>{lodge.location}</span>
@@ -122,6 +124,13 @@ export default async function LodgePage({
           />
         </Section>
       ))}
+
+      {/* Gallery */}
+      {lodge.gallery && lodge.gallery.length > 0 && (
+        <Section tone="paper">
+          <Gallery photos={lodge.gallery} heading={"Inside " + lodge.name} />
+        </Section>
+      )}
 
       {/* Amenities */}
       {lodge.amenities && lodge.amenities.length > 0 && (

@@ -1,11 +1,12 @@
 import { RATE_EXTRAS, PAYMENT_TERMS, type Lodge } from "./types";
+import { withLodgeMedia } from "./media";
 
 /**
  * Lodges are the destination once a client has chosen their experience.
  * Which experience each lodge belongs to is decided in experiences.ts
  * (Experience.offering.lodgeSlugs), not here — see src/content/index.ts.
  */
-export const lodges: Lodge[] = [
+const lodgeData: Lodge[] = [
   // ── Dove Hunting ────────────────────────────────────────────────────
   {
     slug: "los-chanares",
@@ -251,6 +252,8 @@ export const lodges: Lodge[] = [
     ],
   },
 ];
+
+export const lodges: Lodge[] = lodgeData.map(withLodgeMedia);
 
 export const lodgeSlugs = lodges.map((l) => l.slug);
 

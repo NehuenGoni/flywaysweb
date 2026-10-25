@@ -6,6 +6,7 @@ import { Prose } from "@/components/ui/Prose";
 import { Reveal } from "@/components/ui/Reveal";
 import { ScheduleCallButton } from "@/components/ui/ScheduleCallButton";
 import { ProseFeature } from "@/components/sections/ProseFeature";
+import { Gallery } from "@/components/media/Gallery";
 import { WhenToComeTable } from "@/components/experience/WhenToComeTable";
 import { ChooseYourLodge } from "@/components/experience/ChooseYourLodge";
 import { ProgramItinerary } from "@/components/experience/ProgramItinerary";
@@ -66,6 +67,7 @@ export default async function ExperiencePage({
         title={experience.heroHeadline}
         subhead={experience.heroSubhead}
         icon={experience.icon}
+        image={experience.hero}
       >
         <ScheduleCallButton
           placement="page"
@@ -148,6 +150,17 @@ export default async function ExperiencePage({
               </div>
             </Section>
           )}
+          {offering.programs
+            .filter((program) => program.gallery?.length)
+            .map((program, i) => (
+              <Section key={program.slug} id={`${program.slug}-photos`} tone={i % 2 === 0 ? "paper" : "paperDim"}>
+                <Gallery
+                  photos={program.gallery ?? []}
+                  eyebrow={program.durationLabel}
+                  heading={`${program.name} in photos`}
+                />
+              </Section>
+            ))}
           {offering.zones && (
             <Section tone="paperDim">
               <FishingZones block={offering.zones} />
