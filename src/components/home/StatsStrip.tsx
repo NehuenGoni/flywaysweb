@@ -1,15 +1,12 @@
 import { Container } from "@/components/ui/Container";
 import { Counter } from "@/components/ui/Counter";
 import { Reveal } from "@/components/ui/Reveal";
-import { experiences } from "@/content/index";
 import { getHappyClients, getYearsActive } from "@/lib/stats";
 
 export function StatsStrip() {
-  // TODO(client): the document leaves the province count "a confirmar".
   const stats = [
     { value: `${getYearsActive()}+`, label: "Years" },
-    { value: String(experiences.length), label: "Experiences" },
-    { value: "4", label: "Provinces" }, // TODO(client): confirm province count
+    { value: "80%", label: "Return Guests" },
     { counter: getHappyClients(), suffix: "+", label: "Happy Clients" },
   ] as const;
 
@@ -17,7 +14,7 @@ export function StatsStrip() {
     <div className="relative bg-ink">
       <Container className="py-10">
         <Reveal>
-          <dl className="grid grid-cols-2 gap-8 sm:grid-cols-4">
+          <dl className="grid grid-cols-3 gap-4 sm:gap-8">
             {stats.map((s) => (
               <div key={s.label} className="text-center">
                 <dt className="sr-only">{s.label}</dt>

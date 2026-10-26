@@ -8,7 +8,6 @@ const defaultEndorsements: EndorsementMark[] = [
   { name: "Orvis Endorsed", src: "/logos/orvis.png" },
   { name: "Beretta Trident", src: "/logos/beretta.png" },
   { name: "Trip Advisor", src: "/logos/tripadvisor.png" },
-  { name: "SCI", src: "/logos/sci.png" },
 ];
 
 // Orvis ships as a solid-color square badge rather than a wide wordmark on
