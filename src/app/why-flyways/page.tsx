@@ -3,6 +3,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import { Section, Eyebrow } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { Prose } from "@/components/ui/Prose";
+import { TeamSection } from "@/components/team/TeamSection";
 import { Testimonials } from "@/components/home/Testimonials";
 import { CtaBand } from "@/components/sections/CtaBand";
 
@@ -40,20 +41,7 @@ export default function WhyFlywaysPage() {
         </Reveal>
       </Section>
 
-      {/* Team — placeholder until bios/photos are supplied */}
-      <Section tone="paper">
-        <Reveal>
-          <Eyebrow>Our team</Eyebrow>
-          <h2 className="font-display mt-3 max-w-2xl text-3xl sm:text-4xl">
-            The people you&apos;ll actually meet
-          </h2>
-          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-ink/75">
-            Owners, guides and lodge staff who have been doing this for years —
-            most of them, for as long as Flyways has existed. Full team profiles
-            and photos are coming soon.
-          </p>
-        </Reveal>
-      </Section>
+      <TeamSection />
 
       <Testimonials />
 

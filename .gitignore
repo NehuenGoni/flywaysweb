@@ -47,3 +47,6 @@ CLAUDE.md
 
 .vercel
 .env*
+
+# salida del procesado de fotos del equipo (se sube a Vercel Blob)
+/.team-out/
