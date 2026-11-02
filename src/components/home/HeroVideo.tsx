@@ -14,7 +14,13 @@ type NetworkInformation = { saveData?: boolean };
  * has finished loading and never on mobile, with data-saver on or with reduced
  * motion — in those cases the hero keeps showing the poster.
  */
-export function HeroVideo() {
+export function HeroVideo({
+  src = HERO_VIDEO_URL,
+  poster = "/hero-poster.webp",
+}: {
+  src?: string;
+  poster?: string;
+} = {}) {
   const [enabled, setEnabled] = useState(false);
   const [ready, setReady] = useState(false);
 
@@ -41,7 +47,7 @@ export function HeroVideo() {
   return (
     <>
       <Image
-        src="/hero-poster.webp"
+        src={poster}
         alt=""
         fill
         priority
@@ -61,7 +67,7 @@ export function HeroVideo() {
             ready ? "opacity-100" : "opacity-0"
           }`}
         >
-          <source src={HERO_VIDEO_URL} type="video/mp4" />
+          <source src={src} type="video/mp4" />
         </video>
       )}
       <div className="absolute inset-0 -z-10 bg-black/40" />

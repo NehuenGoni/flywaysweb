@@ -132,6 +132,8 @@ export interface Lodge {
   whenToCome?: WhenToCome;
   rates?: Rates;
   hero?: MediaRef;
+  /** Film de fondo del hero; el poster es su primer frame. */
+  heroVideo?: { src: string; poster: string };
   gallery?: MediaRef[];
 }
 
@@ -159,6 +161,8 @@ export interface Program {
   notIncluded?: string[];
   rates?: Rates;
   hero?: MediaRef;
+  /** Film de fondo del hero; el poster es su primer frame. */
+  heroVideo?: { src: string; poster: string };
   gallery?: MediaRef[];
 }
 

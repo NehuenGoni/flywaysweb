@@ -151,6 +151,10 @@ const lodgeData: Lodge[] = [
     location: "Buenos Aires",
     species: ["Duck", "Pigeon", "Perdiz", "Dove"],
     heroSubhead: "The perfect destination in Buenos Aires province for a diverse hunting experience",
+    heroVideo: {
+      src: "https://pm7wtjb3rusbf6oi.public.blob.vercel-storage.com/estancia-del-monte.mp4",
+      poster: "/hero/estancia-del-monte-poster.webp",
+    },
     cardSummary:
       "The latest addition to the FlyWays collection — duck, pigeon, perdiz and dove sixty miles from Buenos Aires, with big game nearby.",
     intro: [

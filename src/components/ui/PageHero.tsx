@@ -3,6 +3,7 @@ import type { MediaRef } from "@/content/types";
 import { Container } from "./Container";
 import { Eyebrow } from "./Section";
 import { Reveal } from "./Reveal";
+import { HeroVideo } from "@/components/home/HeroVideo";
 import { experienceIcons, type ExperienceIconName } from "@/components/brand/icons";
 import { cn } from "@/lib/utils";
 
@@ -22,6 +23,7 @@ export function PageHero({
   tone = "teal",
   icon,
   image,
+  video,
   children,
 }: {
   eyebrow?: string;
@@ -31,6 +33,8 @@ export function PageHero({
   icon?: ExperienceIconName;
   /** Foto de fondo; sin ella se mantiene el degradé de marca. */
   image?: MediaRef;
+  /** Film de fondo con poster; tiene prioridad sobre `image`. */
+  video?: { src: string; poster: string };
   children?: React.ReactNode;
 }) {
   const Icon = icon ? experienceIcons[icon] : null;
@@ -41,7 +45,12 @@ export function PageHero({
         tones[tone],
       )}
     >
-      {image && (
+      {video ? (
+        <>
+          <HeroVideo src={video.src} poster={video.poster} />
+          <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/60 via-black/40 to-black/75" />
+        </>
+      ) : image && (
         <>
           <Image
             src={image.src}

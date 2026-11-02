@@ -64,6 +64,7 @@ export default async function LodgePage({
         tone={pageHeroTone(icon)}
         icon={icon}
         image={lodge.hero}
+        video={lodge.heroVideo}
       >
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-paper/80">
           <span>{lodge.location}</span>
