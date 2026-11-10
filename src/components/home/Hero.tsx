@@ -24,7 +24,7 @@ export function Hero() {
           transition={{ duration: 0.6, ease: EASE }}
           className="font-display text-xs uppercase tracking-[0.32em] text-sky"
         >
-          FlyWays Argentina · Est. 20 years
+          FlyWays Argentina · Est. 2005
         </motion.p>
 
         <motion.h1
