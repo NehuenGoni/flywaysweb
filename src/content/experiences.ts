@@ -201,9 +201,17 @@ const experienceData: Experience[] = [
     heroSubhead: "Argentina has as much to offer off the field as on it.",
     cardSummary:
       "Golf, polo, wine, horseback riding and side trips — everything FlyWays can build around your hunting or fishing trip.",
+    introHeading: "Discover More of Córdoba",
     intro: [
-      "Discover the wonderful diversity of northern Córdoba and the charming city of Córdoba in Argentina, where nature and culture come together to offer you unforgettable experiences! In the north of Córdoba, immerse yourself in a natural paradise full of contrasts. The cultural wealth of northern Córdoba is reflected in its picturesque towns and its historical heritage. The city of Córdoba will surprise you with its unique combination of history, art and vibrant urban life, known for its colonial architecture and buildings such as the Jesuit Block, declared a World Heritage Site by UNESCO.",
+      "Home to some of the world's finest dove hunting, Córdoba has so much more to offer. From breathtaking landscapes and outdoor adventures to rich cultural traditions, exceptional cuisine, and moments of pure relaxation, there's a world of experiences waiting to be discovered.",
+      "Whether you're planning a getaway of its own or looking to enrich your hunting trip, our team will thoughtfully curate every experience around your interests, taking care of every detail so you can simply enjoy the journey.",
     ],
+    introCta: "Book Our Experiences",
+    closing: {
+      heading: "Your Experience, Thoughtfully Arranged",
+      body: "Whether enjoyed on their own or as part of your hunting getaway, every experience can be tailored to your interests and preferences. From planning your itinerary to coordinating every detail, our dedicated team ensures a seamless, personalized experience from beginning to end.",
+      cta: "Plan Your Experience",
+    },
     offering: {
       kind: "activities",
       groups: [discoverCordoba, patagoniaActivities],

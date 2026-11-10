@@ -263,7 +263,13 @@ export interface Experience {
   heroSubhead: string;
   /** short line used on home / index cards */
   cardSummary: string;
+  /** Optional H2 above the intro paragraphs. */
+  introHeading?: string;
   intro: string[];
+  /** Label for a Schedule a Call button under the intro (omitted → no button). */
+  introCta?: string;
+  /** Overrides the closing lead block's heading/body/CTA label. */
+  closing?: { heading: string; body: string; cta?: string };
   /** "What a day looks like" / "On the water". Not every experience has one. */
   field?: ProseSection;
   whenToCome?: WhenToCome;

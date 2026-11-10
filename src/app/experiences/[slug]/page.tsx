@@ -81,7 +81,23 @@ export default async function ExperiencePage({
       {/* Intro */}
       <Section tone="paper">
         <Reveal>
+          {experience.introHeading && (
+            <h2 className="font-display mb-6 max-w-3xl text-3xl sm:text-5xl">
+              {experience.introHeading}
+            </h2>
+          )}
           <Prose paragraphs={experience.intro} size="lg" className="max-w-3xl" />
+          {experience.introCta && (
+            <div className="mt-8">
+              <ScheduleCallButton
+                placement="page"
+                size="lg"
+                label={experience.introCta}
+                businessUnit={businessUnit}
+                experience={experience.navLabel}
+              />
+            </div>
+          )}
         </Reveal>
       </Section>
 
@@ -215,8 +231,12 @@ export default async function ExperiencePage({
 
       {/* Lead form */}
       <LeadSection
-        heading="Plan your trip"
-        body={`Tell us roughly when you'd like to come for ${experience.title.toLowerCase()} and who's traveling. We'll reply personally.`}
+        heading={experience.closing?.heading ?? "Plan your trip"}
+        body={
+          experience.closing?.body ??
+          `Tell us roughly when you'd like to come for ${experience.title.toLowerCase()} and who's traveling. We'll reply personally.`
+        }
+        ctaLabel={experience.closing?.cta}
         businessUnit={businessUnit}
         experience={experience.navLabel}
       />

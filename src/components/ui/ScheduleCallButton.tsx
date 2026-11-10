@@ -26,7 +26,10 @@ export function ScheduleCallButton({
   variant = "primary",
   size = "md",
   className,
+  label = "Schedule a Call",
 }: {
+  /** Button text; the trailing arrow is added automatically. */
+  label?: string;
   /** Where on the page this instance lives — becomes the `placement` param. */
   placement: "header" | "mobile-nav" | "page";
   businessUnit?: BusinessUnit;
@@ -56,7 +59,7 @@ export function ScheduleCallButton({
         openModal({ businessUnit, experience });
       }}
     >
-      Schedule a Call →
+      {label} →
     </Button>
   );
 }

@@ -19,7 +19,9 @@ export function LeadSection({
   variant = "full",
   businessUnit,
   experience,
+  ctaLabel,
 }: {
+  ctaLabel?: string;
   id?: string;
   eyebrow?: string;
   heading?: string;
@@ -42,6 +44,7 @@ export function LeadSection({
               size="lg"
               businessUnit={businessUnit}
               experience={experience}
+              label={ctaLabel}
             />
           </div>
           <p className="mt-6 text-sm text-paper/55">
