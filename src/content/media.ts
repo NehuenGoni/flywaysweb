@@ -75,7 +75,7 @@ const lodgePhotos: Record<string, LodgePhotos> = {
   },
   "estancia-del-monte": {
     folder: "mixed-bag/estancia-del-monte",
-    hero: "hero/golden-hour-hacienda-estate.webp",
+    hero: "the-lodging/sunlit-ivy-covered-mediterranean-villa.webp",
     sections: [
       "the-lodging/mediterranean-villa-pool-paradise.webp",
       "the-shooting/golden-marsh-at-dawn.webp",
