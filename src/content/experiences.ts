@@ -1,7 +1,7 @@
 import type { Experience } from "./types";
 import { withExperienceMedia } from "./media";
 import { programs } from "./programs";
-import { discoverCordoba, patagoniaActivities, tulipExperience, sideTrips } from "./activities";
+import { cordobaExperiences, discoverCordoba, patagoniaActivities, tulipExperience, sideTrips } from "./activities";
 
 /**
  * Experiences are the entry point of the site and the core of SEO. Each
@@ -214,7 +214,7 @@ const experienceData: Experience[] = [
     },
     offering: {
       kind: "activities",
-      groups: [discoverCordoba, patagoniaActivities],
+      groups: [cordobaExperiences, discoverCordoba, patagoniaActivities],
       features: [tulipExperience],
       sideTrips,
     },

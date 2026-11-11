@@ -1,11 +1,11 @@
 import type { Activity, ActivityGroup, DestinationList, ProseSection } from "./types";
 
 /** "Experiences" — the Córdoba activities FlyWays can arrange (client copy, section 8). */
-export const discoverCordoba: ActivityGroup = {
+export const cordobaExperiences: ActivityGroup = {
   heading: "Experiences",
   items: [
     {
-      slug: "horseback-riding-cordoba",
+      slug: "horseback-riding",
       status: "complete",
       name: "Horseback Riding",
       region: "Córdoba",
@@ -14,7 +14,7 @@ export const discoverCordoba: ActivityGroup = {
       ],
     },
     {
-      slug: "polo",
+      slug: "polo-lessons",
       status: "complete",
       name: "Polo Lessons",
       region: "Córdoba",
@@ -23,7 +23,7 @@ export const discoverCordoba: ActivityGroup = {
       ],
     },
     {
-      slug: "golf",
+      slug: "golf-day",
       status: "complete",
       name: "Golf Day",
       region: "Córdoba",
@@ -77,7 +77,7 @@ export const discoverCordoba: ActivityGroup = {
       ],
     },
     {
-      slug: "city-tours",
+      slug: "city-tour",
       status: "complete",
       name: "City Tour in Córdoba or Jesús María",
       region: "Córdoba",
@@ -93,6 +93,78 @@ export const discoverCordoba: ActivityGroup = {
       availability: "January",
       body: [
         "Every January, Jesús María hosts one of Argentina’s most iconic cultural events — the Festival Nacional de Doma y Folklore. Watch skilled gauchos in traditional rodeo competitions, enjoy live folklore music and dance, and savor authentic Argentine food. It’s an unforgettable immersion into Córdoba’s traditions and the proud spirit of the pampas.",
+      ],
+    },
+  ],
+};
+
+/** "Discover Córdoba" — 7 activities (client copy, section 8.1). */
+export const discoverCordoba: ActivityGroup = {
+  heading: "Discover Córdoba",
+  intro:
+    "Beyond the field, northern Córdoba and its capital city round out the trip with golf, polo, horseback riding and centuries of history — from colonial estancias to the Jesuit Block, a UNESCO World Heritage Site.",
+  items: [
+    {
+      slug: "golf",
+      status: "complete",
+      name: "Golf",
+      region: "Córdoba",
+      body: [
+        "Just minutes away from our lodges near the suburban city of Jesús María and the rolling hills of Ascochinga, we have 2 of the finest golf courses in the Argentinean countryside. Estancia La Paz and Ascochinga Golf Club; both courses feature 18 holes, Par 72. As you navigate these golf courses, you'll enjoy a journey through centennial parks surrounded by old trees and rivers flowing through.",
+      ],
+    },
+    {
+      slug: "polo",
+      status: "complete",
+      name: "Polo",
+      region: "Córdoba",
+      body: [
+        "Equestrian pursuits have deep roots in the vibrant history of Córdoba's polo scene, carrying on the rich traditions for generations. Whether you're a seasoned enthusiast or a casual observer, immersing yourself in an afternoon of polo in Córdoba promises a distinctive and engaging experience.",
+      ],
+    },
+    {
+      slug: "horseback-riding-cordoba",
+      status: "complete",
+      name: "Horseback Riding",
+      region: "Córdoba",
+      body: [
+        "On horseback, explore a sprawling urban development, Estancia la Paz, once a summer estate of Argentina's two-time President, Julio A. Roca. The ride unveils history and beauty, with a park designed by Charles Thays in 1900. Or ride in the wonderful hills of wild Córdoba scenery.",
+      ],
+    },
+    {
+      slug: "jesuit-estancias",
+      status: "complete",
+      name: "Jesuit Estancias",
+      region: "Córdoba",
+      body: [
+        "1618, the Jesús María Estate, now the National Jesuit Museum, is one of the must-visit sites in this northern Córdoba enclave. In addition witness the extensive history of the Jesuit settlements in this part of Argentina in several sites with churches and other monuments.",
+      ],
+    },
+    {
+      slug: "bodega-terra-camiare",
+      status: "complete",
+      name: "Bodega Terra Camiare",
+      region: "Córdoba",
+      body: [
+        "At Bodega Terra Camiare, revel in the freedom to unwind, surrounded by the enchanting landscapes of Córdoba, Argentina. Indulge in leisure, accompanied by the exquisite flavors of local wines harmoniously paired with artisanal cheeses and freshly baked bread.",
+      ],
+    },
+    {
+      slug: "banos-de-azur",
+      status: "complete",
+      name: "Baños de Azur",
+      region: "Córdoba",
+      body: [
+        "A journey of different sensations in the basement of a historical building. Rooms of water at different temperatures and states, such as the Caldarium to clean and detoxify the body, the rain room that invites introspection, and the fountain with ice flakes to exfoliate the skin.",
+      ],
+    },
+    {
+      slug: "city-tours",
+      status: "complete",
+      name: "City Tours",
+      region: "Córdoba",
+      body: [
+        "Explore the enchanting city of Córdoba on a captivating city tour that seamlessly blends history, modernity, and natural beauty. Begin at the UNESCO-listed Córdoba Cathedral and the Jesuit Block. Wander through Güemes, a bohemian neighborhood adorned with vibrant street art and boutique shops.",
       ],
     },
   ],
